@@ -8,6 +8,20 @@
   <style>
     .options {display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;align-items:center}
     .options label {font-size:.85rem;color:var(--muted)}
+    #prompt {
+      margin-top:6px;
+      background:#0b1224;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      padding:12px;
+      min-height:72px;
+      max-height:180px;          /* scroll instead of exploding the layout */
+      overflow:auto;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    #input {font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
   </style>
 </head>
 <body>
@@ -24,7 +38,7 @@
   <section class="hero">
     <div class="kicker">Foundation</div>
     <h1 class="h1">Typing Skills</h1>
-    <p class="sub">Accuracy first, then speed. Practice with random prompts — you can toggle symbols/numbers and set the timer length.</p>
+    <p class="sub">Accuracy first, then speed. Endless random prompts — toggle symbols/numbers and choose your timer.</p>
   </section>
 
   <section class="card" style="padding:18px">
@@ -40,9 +54,9 @@
     </div>
 
     <div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <div>
+      <div style="flex:1 1 auto;min-width:280px">
         <div class="tag">Prompt</div>
-        <div id="prompt" style="margin-top:6px"></div>
+        <div id="prompt"></div>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <span class="tag">Time left: <span id="time">0</span>s</span>
@@ -51,91 +65,136 @@
         <button id="new" class="button secondary">New prompt</button>
       </div>
     </div>
+
     <textarea id="input" placeholder="Type here..." style="margin-top:12px"></textarea>
-    <div class="badge">Tip: Prompts are random words. Toggle symbols/numbers for extra challenge.</div>
+    <div class="badge">Tip: The prompt extends automatically as you type. “Enter” isn’t required — just keep typing.</div>
   </section>
 </main>
 
 <footer class="footer">© <span id="year"></span> Vex • Typing</footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
 <script>
+/* ===== Word pools ===== */
 const wordBank = [
   "print","function","loop","array","const","hello","world","return",
   "keyboard","screen","python","while","input","class","object","code",
   "debug","value","true","false","index","string","var","random",
   "public","static","int","char","if","else","elif","case","break",
-  "math","sum","max","min","sqrt","len","sort","map","filter"
+  "math","sum","max","min","sqrt","len","sort","map","filter","reduce",
+  "node","event","click","turtle","canvas","sprite","logic","state","update"
 ];
-const symbols = ["{","}","[","]","(",")",";","=","+","-","*","/","%","<",">","!",":","'","\"","`","|","&","#","@","?","1","2","3","4","5","6","7","8","9","0"];
+const symbolBank = ["{","}","[","]","(",")",";","=","+","-","*","/","%","<",">","!",":","'","\"","`","|","&","#","@","?","1","2","3","4","5","6","7","8","9","0",".",","];
 
-let promptEl = document.getElementById('prompt');
-let inputEl = document.getElementById('input');
-let timeEl = document.getElementById('time');
-let wpmEl = document.getElementById('wpm');
-let accEl = document.getElementById('acc');
-let newBtn = document.getElementById('new');
-let durationEl = document.getElementById('duration');
-let useSymbolsEl = document.getElementById('useSymbols');
+/* ===== DOM ===== */
+const promptEl = document.getElementById('prompt');
+const inputEl  = document.getElementById('input');
+const timeEl   = document.getElementById('time');
+const wpmEl    = document.getElementById('wpm');
+const accEl    = document.getElementById('acc');
+const newBtn   = document.getElementById('new');
+const durationEl   = document.getElementById('duration');
+const useSymbolsEl = document.getElementById('useSymbols');
 
-let current="", timer=null, remaining=0, started=false, correct=0, errors=0;
+/* ===== State ===== */
+let buffer = "";          // full prompt buffer (grows as needed)
+let timer  = null;
+let remaining = 0;
+let started = false;
+let typedLen = 0;         // characters typed this round
 
-function generatePrompt(){
+/* ===== Prompt generation ===== */
+function randomFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function generateChunk(lenWords=20){
   let pool = [...wordBank];
-  if(useSymbolsEl.checked) pool = pool.concat(symbols);
-  let words=[];
-  for(let i=0;i<8;i++){
-    words.push(pool[Math.floor(Math.random()*pool.length)]);
-  }
+  if (useSymbolsEl.checked) pool = pool.concat(symbolBank);
+  const words = [];
+  for(let i=0;i<lenWords;i++){ words.push(randomFrom(pool)); }
   return words.join(" ");
 }
 
-function newPrompt(){
-  current = generatePrompt();
-  promptEl.textContent = current;
-  inputEl.value="";
-  remaining=parseInt(durationEl.value);
-  timeEl.textContent=remaining;
-  wpmEl.textContent="0";
-  accEl.textContent="100%";
-  started=false;
-  if(timer) clearInterval(timer);
+function ensureBuffer(){
+  // Keep at least 400 characters ahead of the user's position.
+  const ahead = buffer.length - typedLen;
+  while (ahead < 400) {
+    buffer += (buffer ? " " : "") + generateChunk(30);
+  }
+  promptEl.textContent = buffer;
 }
-newPrompt();
+
+/* ===== Round control ===== */
+function resetRound(){
+  buffer = "";
+  typedLen = 0;
+  started = false;
+  remaining = parseInt(durationEl.value);
+  timeEl.textContent = remaining;
+  wpmEl.textContent  = "0";
+  accEl.textContent  = "100%";
+  inputEl.value = "";
+  inputEl.disabled = false;
+  if (timer) clearInterval(timer);
+  ensureBuffer();
+  inputEl.focus();
+}
 
 function startTimer(){
-  timer=setInterval(()=>{
+  timer = setInterval(()=>{
     remaining--;
-    timeEl.textContent=remaining;
-    if(remaining<=0){
+    timeEl.textContent = remaining;
+    if (remaining <= 0){
       clearInterval(timer);
-      inputEl.disabled=true;
+      inputEl.disabled = true;
     }
-  },1000);
+  }, 1000);
 }
 
+/* ===== Metrics ===== */
+function updateStats(){
+  const typed = inputEl.value;
+  typedLen = typed.length;
+
+  // Extend buffer if we’re getting close to the end
+  ensureBuffer();
+
+  // Accuracy: compare typed to buffer substring
+  let correct = 0, errors = 0;
+  for (let i=0; i<typed.length; i++){
+    if (typed[i] === buffer[i]) correct++; else errors++;
+  }
+  const acc = Math.max(0, Math.round(100 * (correct / Math.max(typed.length,1))));
+  accEl.textContent = acc + "%";
+
+  // WPM: standard 5 chars per word, based on elapsed time
+  const total = parseInt(durationEl.value);
+  const elapsedMin = (total - remaining) / 60 || (1/60);
+  const wpm = Math.round((typed.length / 5) / elapsedMin);
+  wpmEl.textContent = String(wpm);
+
+  // Auto-scroll prompt so the current area stays visible
+  // (scroll to roughly where the caret is in the buffer)
+  const ratio = typed.length / buffer.length;
+  promptEl.scrollTop = ratio * (promptEl.scrollHeight - promptEl.clientHeight);
+}
+
+/* ===== Events ===== */
 inputEl.addEventListener('input', ()=>{
-  if(!started){
-    started=true;
-    inputEl.disabled=false;
+  if (!started){
+    started = true;
     startTimer();
   }
-  let typed=inputEl.value;
-  errors=0; correct=0;
-  for(let i=0;i<typed.length;i++){
-    if(typed[i]===current[i]) correct++; else errors++;
-  }
-  let acc = Math.max(0,Math.round(100*correct/Math.max(typed.length,1)));
-  accEl.textContent=acc+"%";
-  let elapsed=(parseInt(durationEl.value)-remaining)/60;
-  let wpm=Math.round((typed.length/5)/(elapsed||1/60));
-  wpmEl.textContent=wpm;
+  updateStats();
 });
 
-newBtn.addEventListener('click', ()=>{
-  inputEl.disabled=false;
-  newPrompt();
-  inputEl.focus();
-});
+// Rebuild prompt when options change
+useSymbolsEl.addEventListener('change', resetRound);
+durationEl.addEventListener('change', resetRound);
+
+// New prompt button
+newBtn.addEventListener('click', resetRound);
+
+/* ===== Init ===== */
+resetRound();
 </script>
 </body>
 </html>
