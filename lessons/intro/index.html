@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intro to Coding: Move & Draw</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <!-- Skulpt (Python-in-browser) for optional Python mode -->
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="nav container">
+    <div class="brand"><div class="logo"></div> KidCoder</div>
+    <nav>
+      <a class="button secondary" href="../../index.html">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="kicker">Lesson 1</div>
+    <h1 class="h1">Move & Draw</h1>
+    <p class="sub">We’ll move a shape and draw lines with code. Try both JavaScript and Python right in the browser.</p>
+  </section>
+
+  <section data-tabs class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn" data-for="learn">Learn</button>
+      <button class="tab-btn" data-for="examples">Examples</button>
+      <button class="tab-btn" data-for="practice">Practice</button>
+    </div>
+
+    <div id="learn" class="tab-panel">
+      <div class="card" style="padding:18px">
+        <h3>Key ideas</h3>
+        <ul>
+          <li><strong>Commands</strong>: tiny instructions a computer follows in order.</li>
+          <li><strong>Sequence</strong>: the order of commands matters.</li>
+          <li><strong>Loops</strong>: repeat steps to make patterns.</li>
+        </ul>
+        <p>Tip: press <span class="kbd">Ctrl</span>/<span class="kbd">Cmd</span> + <span class="kbd">Enter</span> to run code.</p>
+      </div>
+    </div>
+
+    <div id="examples" class="tab-panel">
+      <div class="card" style="padding:18px">
+        <div class="tabs" data-tabs>
+          <button class="tab-btn" data-for="ex-js">JavaScript</button>
+          <button class="tab-btn" data-for="ex-py">Python</button>
+        </div>
+
+        <div id="ex-js" class="tab-panel">
+          <div class="editor" data-editor data-lang="js">
+            <div class="row">
+              <div class="tag">Example: draw a square on canvas (JS)</div>
+              <div style="display:flex;gap:8px">
+                <button class="button secondary" data-run>Run</button>
+              </div>
+            </div>
+            <textarea spellcheck="false">
+// Draw moving square on a canvas
+const c = document.createElement('canvas');
+c.width = 400; c.height = 260; document.body.appendChild(c);
+const ctx = c.getContext('2d');
+
+let x = 20, y = 20, dx = 2, dy = 1.5;
+function step(){
+  ctx.fillStyle = '#0b1224';
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle = '#60a5fa';
+  ctx.fillRect(x,y,40,40);
+  x+=dx; y+=dy;
+  if(x<0||x>c.width-40) dx*=-1;
+  if(y<0||y>c.height-40) dy*=-1;
+  requestAnimationFrame(step);
+}
+step();
+console.log("Canvas added above. Try changing dx or dy!");
+            </textarea>
+            <pre class="console"></pre>
+          </div>
+        </div>
+
+        <div id="ex-py" class="tab-panel">
+          <div class="editor" data-editor data-lang="py">
+            <div class="row">
+              <div class="tag">Example: draw with turtle (Python via Skulpt)</div>
+              <div style="display:flex;gap:8px">
+                <button class="button secondary" data-run>Run</button>
+              </div>
+            </div>
+            <textarea spellcheck="false">
+# Simple turtle square
+import turtle
+t = turtle.Turtle()
+for _ in range(4):
+    t.forward(80)
+    t.left(90)
+print("Turtle drew a square!")
+            </textarea>
+            <div id="py-canvas"></div>
+            <pre class="console"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="practice" class="tab-panel">
+      <div class="card" style="padding:18px">
+        <h3>Your turn</h3>
+        <p>Make a triangle, star, or spiral. Try to use a <strong>loop</strong> instead of copy‑pasting.</p>
+        <div class="editor" data-editor data-lang="js">
+          <div class="row">
+            <div class="tag">Sandbox (JS)</div>
+            <button class="button secondary" data-run>Run</button>
+          </div>
+          <textarea>// Draw your own pattern here using a canvas like in the example above.</textarea>
+          <pre class="console"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="year"></span> KidCoder • Lesson 1</footer>
+<script type="module" src="../../assets/app.js"></script>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body>
+</html>

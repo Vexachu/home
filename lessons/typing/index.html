@@ -1,0 +1,96 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Typing Skills</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="nav container">
+    <div class="brand"><div class="logo"></div> KidCoder</div>
+    <nav>
+      <a class="button secondary" href="../../index.html">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="kicker">Foundation</div>
+    <h1 class="h1">Typing Skills</h1>
+    <p class="sub">Accuracy first, then speed. Practice with short coding‑style prompts.</p>
+  </section>
+
+  <section class="card" style="padding:18px">
+    <div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="tag">Prompt</div>
+        <div id="prompt" style="margin-top:6px"></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="tag">Time: <span id="time">0.0</span>s</span>
+        <span class="tag">WPM: <span id="wpm">0</span></span>
+        <span class="tag">Accuracy: <span id="acc">100%</span></span>
+        <button id="new" class="button secondary">New prompt</button>
+      </div>
+    </div>
+    <textarea id="input" placeholder="Type here..." style="margin-top:12px"></textarea>
+    <div class="badge">Tip: Prompts include brackets, quotes, and symbols common in code.</div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="year"></span> KidCoder • Typing</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+<script type="module">
+import { $ } from "../../assets/app.js";
+
+const prompts = [
+  "print('hello, world')",
+  "for (let i = 0; i < 10; i++) { console.log(i); }",
+  "def area(r):\n    return 3.14159 * r**2",
+  "const coords = [{x:1,y:2},{x:3,y:4}]",
+  "if (score >= 90) { grade = 'A'; } else { grade = 'B'; }",
+  "while (n > 1) { n = n / 2; }",
+  "let msg = `hi ${name}`;"
+];
+
+const promptEl = document.getElementById('prompt');
+const inputEl = document.getElementById('input');
+const timeEl = document.getElementById('time');
+const wpmEl = document.getElementById('wpm');
+const accEl = document.getElementById('acc');
+const newBtn = document.getElementById('new');
+
+let start = null, timer=null, current="", chars=0, errors=0;
+
+function pick(){ current = prompts[Math.floor(Math.random()*prompts.length)]; promptEl.textContent = current; inputEl.value=''; inputEl.focus(); start=null; chars=0; errors=0; timeEl.textContent='0.0'; wpmEl.textContent='0'; accEl.textContent='100%';}
+pick();
+
+function tick(){
+  if(!start) return;
+  const sec = (Date.now()-start)/1000;
+  timeEl.textContent = sec.toFixed(1);
+  const words = inputEl.value.length/5;
+  const wpm = Math.round(words / (sec/60 || 1));
+  wpmEl.textContent = String(wpm);
+}
+inputEl.addEventListener('input', ()=>{
+  if(!start){ start = Date.now(); timer=setInterval(tick, 100); }
+  const v = inputEl.value;
+  chars = v.length;
+  // accuracy
+  errors = 0;
+  for(let i=0;i<v.length;i++){
+    if(v[i] !== current[i]) errors++;
+  }
+  const acc = Math.max(0, Math.round(100*(1 - errors/Math.max(current.length,1))));
+  accEl.textContent = acc + '%';
+  if(v === current){ clearInterval(timer); tick(); }
+});
+newBtn.addEventListener('click', pick);
+</script>
+</body>
+</html>
