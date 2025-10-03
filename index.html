@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,38 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KidCoder — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* page-specific tweaks */
+    .search { display:flex; align-items:center; gap:8px; }
+    .search input[type="search"]{
+      background:#0b1224; color:var(--text);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:12px; padding:10px 12px; min-width:240px;
+      outline:none;
+    }
+    .search input[type="search"]::placeholder{ color:var(--muted); }
+    .hidden{ display:none !important; }
+  </style>
 </head>
 <body>
   <header class="header">
     <div class="nav container">
       <div class="brand"><div class="logo"></div> KidCoder <span class="badge">beta</span></div>
-      <nav>
-        <a class="button secondary" href="lessons/why-code/">Why Code?</a>
-        <a class="button secondary" href="lessons/typing/">Typing Skills</a>
-      </nav>
+      <div class="search">
+        <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
+        <input id="lesson-search" type="search" placeholder="Search lessons…">
+      </div>
     </div>
   </header>
 
   <main class="container">
     <section class="hero">
       <div class="kicker">Welcome</div>
-      <h1 class="h1">Hands-on coding for beginners — calm blue vibes, zero fluff.</h1>
-      <p class="sub">Start with simple, visual projects and level up to real programming. Each lesson has examples, practice, and an in-browser editor so students can learn by doing.</p>
+      <h1 class="h1">Hands-on coding for beginners</h1>
+      <p class="sub">Start with simple code you can see and tweak. Each lesson includes examples, practice, and an in-browser editor so you can learn by doing.</p>
       <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
         <a class="button" href="lessons/intro/">Start: Intro to Coding</a>
-        <a class="button secondary" href="lessons/typing/">Boost Typing</a>
+        <a class="button secondary" href="lessons/typing/">Typing</a>
       </div>
     </section>
 
     <section>
-      <div class="grid">
-        <!-- Intro lesson (polished name) -->
-        <article class="card">
+      <div class="grid" id="lesson-grid">
+        <!-- Intro lesson -->
+        <article class="card" data-title="Intro to Coding: Move & Draw" data-tags="intro move draw canvas commands loops beginner">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Beginner</span>
             <h3>Intro to Coding: Move & Draw</h3>
-            <p>Make shapes move on a canvas, respond to keys, and draw patterns. Learn concepts like commands, sequencing, and loops.</p>
+            <p>Make shapes move on a canvas and draw patterns. Learn concepts like commands and loops.</p>
           </div>
           <div class="foot">
             <a class="button" href="lessons/intro/">Open Lesson</a>
@@ -46,7 +57,7 @@
         </article>
 
         <!-- Typing skills -->
-        <article class="card">
+        <article class="card" data-title="Typing Skills" data-tags="typing keyboard accuracy wpm practice foundation">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Foundation</span>
@@ -60,12 +71,12 @@
         </article>
 
         <!-- Why Code -->
-        <article class="card">
+        <article class="card" data-title="Why Code?" data-tags="why code motivation slides overview mindset">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Mindset</span>
             <h3>Why Code?</h3>
-            <p>Explore how coding powers the world, from games to space robots. Short, punchy slides for motivation.</p>
+            <p>Explore how coding powers the world, from games to space robots.</p>
           </div>
           <div class="foot">
             <a class="button" href="lessons/why-code/">Open Lesson</a>
@@ -74,12 +85,12 @@
         </article>
 
         <!-- Placeholders -->
-        <article class="card">
+        <article class="card" data-title="Loops & Patterns" data-tags="loops patterns drawing shapes repeat art">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Coming soon</span>
             <h3>Loops & Patterns</h3>
-            <p>Repeat yourself (on purpose) to draw spirals, stars, and satisfying patterns.</p>
+            <p>Repeat yourself to draw spirals, stars, and satisfying patterns.</p>
           </div>
           <div class="foot">
             <a class="button secondary" href="#">Soon</a>
@@ -87,7 +98,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card" data-title="Interactive Stories" data-tags="interactive stories choose your path narrative">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Coming soon</span>
@@ -100,11 +111,11 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card" data-title="Mini-Games" data-tags="games mini keyboard input collisions">
           <div class="thumb"></div>
           <div class="body">
             <span class="tag">Coming soon</span>
-            <h3>Mini‑Games</h3>
+            <h3>Mini-Games</h3>
             <p>Use keyboard input and collisions to build tiny games step by step.</p>
           </div>
           <div class="foot">
@@ -116,9 +127,36 @@
     </section>
   </main>
 
-  <footer class="footer">© <span id="year"></span> KidCoder • Built for students</footer>
+  <footer class="footer">© <span id="year"></span> Vex • Built for students</footer>
 
   <script type="module" src="assets/app.js"></script>
-  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple client-side search for lesson cards
+    const input = document.getElementById('lesson-search');
+    const cards = Array.from(document.querySelectorAll('#lesson-grid .card'));
+    function applyFilter() {
+      const q = (input.value || '').trim().toLowerCase();
+      let visible = [];
+      cards.forEach(card => {
+        const hay = (card.dataset.title + ' ' + (card.dataset.tags || '')).toLowerCase();
+        const show = !q || hay.includes(q);
+        card.classList.toggle('hidden', !show);
+        if (show) visible.push(card);
+      });
+      return visible;
+    }
+    input.addEventListener('input', applyFilter);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const vis = applyFilter();
+        if (vis.length === 1) {
+          const link = vis[0].querySelector('.foot a');
+          if (link) window.location.href = link.getAttribute('href');
+        }
+      }
+    });
+  </script>
 </body>
 </html>
