@@ -15,13 +15,13 @@
       border-radius:12px;
       padding:12px;
       min-height:72px;
-      max-height:180px;          /* scroll instead of exploding the layout */
-      overflow:auto;
+      font-family: ui-monospace, monospace;
       white-space:pre-wrap;
-      word-break:break-word;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      word-wrap:break-word;
     }
-    #input {font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;}
+    #input {
+      font-family: ui-monospace, monospace;
+    }
   </style>
 </head>
 <body>
@@ -38,12 +38,14 @@
   <section class="hero">
     <div class="kicker">Foundation</div>
     <h1 class="h1">Typing Skills</h1>
-    <p class="sub">Accuracy first, then speed. Endless random prompts — toggle symbols/numbers and choose your timer.</p>
+    <p class="sub">Accuracy first, then speed. Choose your category and timer, then type endlessly until time runs out.</p>
   </section>
 
   <section class="card" style="padding:18px">
     <div class="options">
-      <label><input type="checkbox" id="useSymbols" checked> Include numbers & symbols</label>
+      <label><input type="radio" name="category" value="all" checked> Symbols + Programming Words + Words</label>
+      <label><input type="radio" name="category" value="words"> Words</label>
+      <label><input type="radio" name="category" value="prog"> Programming Words + Symbols</label>
       <label>Time:
         <select id="duration">
           <option value="15">15s</option>
@@ -62,12 +64,12 @@
         <span class="tag">Time left: <span id="time">0</span>s</span>
         <span class="tag">WPM: <span id="wpm">0</span></span>
         <span class="tag">Accuracy: <span id="acc">100%</span></span>
-        <button id="new" class="button secondary">New prompt</button>
+        <button id="new" class="button secondary">New round</button>
       </div>
     </div>
 
     <textarea id="input" placeholder="Type here..." style="margin-top:12px"></textarea>
-    <div class="badge">Tip: The prompt extends automatically as you type. “Enter” isn’t required — just keep typing.</div>
+    <div class="badge">Tip: Text extends endlessly. Accuracy = correct keystrokes ÷ total keystrokes.</div>
   </section>
 </main>
 
@@ -75,13 +77,305 @@
 <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
 <script>
 /* ===== Word pools ===== */
-const wordBank = [
-  "print","function","loop","array","const","hello","world","return",
-  "keyboard","screen","python","while","input","class","object","code",
-  "debug","value","true","false","index","string","var","random",
-  "public","static","int","char","if","else","elif","case","break",
-  "math","sum","max","min","sqrt","len","sort","map","filter","reduce",
-  "node","event","click","turtle","canvas","sprite","logic","state","update"
+const fullWordBank = [
+  "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract",
+  "absurd", "abuse", "academy", "accelerate", "accept", "access", "accident",
+  "accompany", "account", "accurate", "accuse", "achieve", "acid", "acknowledge",
+  "acquire", "across", "act", "action", "active", "actor", "actual", "adapt",
+  "add", "addict", "address", "adequate", "adjust", "admin", "admit", "adult",
+  "advance", "advice", "aesthetic", "affect", "affirm", "afraid", "again", "age",
+  "agency", "agenda", "agent", "aggressive", "ago", "agree", "ahead", "aim",
+  "air", "airport", "alarm", "album", "alert", "alien", "alive", "all", "allege",
+  "allow", "almost", "alone", "along", "alpha", "already", "also", "alter",
+  "always", "amazing", "amazon", "amend", "among", "amount", "amuse", "analogy",
+  "analyze", "ancestor", "ancient", "and", "angel", "anger", "angle", "animal",
+  "annoy", "annual", "another", "answer", "antenna", "antique", "anxiety",
+  "any", "apart", "apology", "appear", "apple", "apply", "appoint", "approve",
+  "apt", "arbitrary", "arch", "archive", "area", "arena", "argue", "arise",
+  "arm", "army", "around", "arrange", "arrest", "arrive", "arrow", "art",
+  "article", "artist", "artwork", "ask", "aspect", "assault", "assert", "assess",
+  "asset", "assist", "associate", "assume", "asthma", "athlete", "atom", "attack",
+  "attain", "attempt", "attend", "attitude", "attract", "auction", "audit", "august",
+  "aunt", "author", "auto", "autumn", "average", "avocado", "avoid", "awake",
+  "aware", "away", "awesome", "awful", "awkward", "baby", "bachelor", "bacon",
+  "badge", "bag", "bake", "balance", "balcony", "ball", "bamboo", "banana",
+  "banner", "bar", "bare", "bargain", "barrier", "base", "basic", "basket",
+  "battle", "beach", "beam", "bean", "beauty", "because", "become", "beef",
+  "before", "beg", "begin", "behavior", "behind", "believe", "bell", "belly",
+  "belong", "below", "belt", "bench", "benefit", "berry", "beside", "best",
+  "betray", "better", "between", "beyond", "bicycle", "big", "bike", "bill",
+  "billion", "bind", "biology", "bird", "birth", "bitter", "black", "blade",
+  "blame", "blank", "blast", "blend", "bless", "blind", "block", "blood",
+  "blossom", "blow", "blue", "blur", "board", "boat", "body", "boil", "bold",
+  "bolt", "bomb", "bone", "bonus", "book", "boost", "border", "bored", "boring",
+  "born", "borrow", "boss", "bottom", "bounce", "boundary", "bow", "bowl",
+  "box", "boy", "brain", "brand", "brave", "bread", "break", "breathe", "brick",
+  "bridge", "brief", "bright", "bring", "brisk", "broccoli", "broken", "broke",
+  "bronze", "brook", "brow", "brown", "brush", "bubble", "bud", "budget",
+  "buffalo", "build", "bulb", "bulk", "bullet", "bunch", "bundle", "bunker",
+  "burden", "burger", "burst", "bus", "bush", "business", "busy", "butter",
+  "button", "buy", "buzz", "cabbage", "cabin", "cable", "cactus", "cage",
+  "cake", "calculate", "calendar", "call", "calm", "camera", "camp", "can",
+  "cancel", "candle", "candy", "cannon", "canvas", "cap", "capable", "capacity",
+  "capital", "captain", "capture", "car", "carbon", "card", "care", "career",
+  "cargo", "carpet", "carry", "cart", "case", "cash", "casino", "castle",
+  "casual", "cat", "catalog", "catch", "category", "cattle", "caught", "cause",
+  "caution", "cave", "cease", "ceiling", "celebrate", "cell", "cement", "census",
+  "cent", "center", "central", "century", "cereal", "certain", "chair", "chalk",
+  "champion", "chance", "change", "chaos", "chapter", "charge", "charity",
+  "charm", "chart", "chase", "chat", "cheap", "check", "cheese", "chef",
+  "chemical", "chemist", "chest", "chicken", "chief", "child", "chimney",
+  "choice", "choose", "church", "cigar", "cinema", "circle", "circus", "citizen",
+  "city", "civil", "claim", "clap", "clarify", "clark", "class", "classic",
+  "classify", "clause", "clean", "clear", "clerk", "clever", "click", "client",
+  "climate", "climb", "clinic", "clip", "clock", "close", "cloth", "cloud",
+  "clown", "club", "clue", "clumsy", "cluster", "coach", "coast", "coat",
+  "coconut", "code", "coffee", "coin", "collect", "college", "color", "column",
+  "combine", "comfort", "comic", "command", "comment", "commerce", "commit",
+  "common", "community", "company", "compare", "compass", "compete", "complete",
+  "compose", "compound", "compress", "comprise", "computing", "concert",
+  "concept", "concern", "concert", "conclude", "concrete", "condition",
+  "conduct", "confident", "confirm", "conflict", "conform", "confuse",
+  "congress", "connect", "conscious", "consist", "constant", "construct",
+  "consult", "consume", "contact", "contain", "content", "contest", "context",
+  "control", "convert", "convince", "cook", "cool", "cooperate", "coordinate",
+  "copper", "copy", "core", "corn", "corner", "correct", "cost", "cotton",
+  "couch", "cough", "could", "council", "countryside", "country", "county",
+  "couple", "courage", "course", "cousin", "cover", "cow", "crack", "cradle",
+  "craft", "crash", "crawl", "crazy", "cream", "create", "creature", "credit",
+  "creep", "crew", "cricket", "crime", "crisp", "critic", "crop", "cross",
+  "crowd", "crown", "crucial", "cruel", "cruise", "crumble", "crush", "cry",
+  "cup", "cupboard", "curious", "curl", "current", "curtain", "curve", "custom",
+  "customer", "cut", "cycle", "dad", "damage", "dance", "danger", "daring",
+  "dark", "darling", "dash", "daughter", "dawn", "day", "dead", "dear",
+  "death", "debate", "debris", "decade", "decide", "decline", "decorate",
+  "decrease", "dedicate", "deep", "deer", "defeat", "defend", "define",
+  "defy", "degree", "delay", "delete", "delicious", "demand", "demise",
+  "denote", "depart", "depend", "deposit", "depth", "deputy", "derive", "describe",
+  "desert", "design", "desire", "desk", "despite", "destroy", "detail", "detect",
+  "develop", "device", "devote", "dialog", "diameter", "diamond", "diary",
+  "dice", "digital", "dignity", "dilemma", "dimension", "dinner", "dinosaur",
+  "direct", "dirt", "disagree", "discover", "discuss", "disease", "dish",
+  "dismiss", "disorder", "display", "distance", "diverse", "divide", "divorce",
+  "doctor", "document", "dog", "doll", "dolphin", "domain", "donate", "donkey",
+  "door", "dose", "double", "doubt", "dove", "downtown", "draft", "dragon",
+  "drama", "drastic", "draw", "dream", "dress", "drift", "drink", "drive",
+  "drop", "drum", "dry", "duck", "dull", "dust", "duty", "dynamic", "eager",
+  "eagle", "ear", "early", "earn", "earth", "ease", "east", "easy", "echo",
+  "economy", "edge", "edit", "educate", "effect", "effort", "egg", "eight",
+  "either", "elaborate", "elapse", "elder", "electric", "element", "elephant",
+  "elevator", "elite", "else", "embark", "embody", "embrace", "emerge", "emotion",
+  "employ", "empower", "empty", "enable", "enact", "end", "endorse", "energy",
+  "enforce", "engage", "engine", "enhance", "enjoy", "enlist", "enough",
+  "enroll", "ensure", "enter", "entire", "entry", "envelope", "epic", "equal",
+  "equip", "era", "erase", "erect", "error", "escape", "essay", "essence",
+  "estate", "eternal", "ethics", "evidence", "evil", "evoke", "evolve", "exact",
+  "examine", "example", "exceed", "excel", "exchange", "excite", "exclude",
+  "excuse", "execute", "exercise", "exhaust", "exhibit", "exile", "exist",
+  "exit", "exotic", "expand", "expect", "expire", "explain", "explode",
+  "explore", "export", "expose", "express", "extend", "extra", "eye", "fabric",
+  "face", "faculty", "fade", "faint", "faith", "fall", "false", "fame",
+  "family", "famous", "fan", "fancy", "fantasy", "farm", "fashion", "fast",
+  "fat", "fatal", "father", "fatigue", "fault", "favorite", "feature", "february",
+  "federal", "fee", "feed", "feel", "female", "fence", "festival", "fetch",
+  "fever", "few", "fiber", "fiction", "field", "fierce", "fight", "figure",
+  "file", "film", "filter", "final", "find", "fine", "finger", "finish",
+  "fire", "firm", "first", "fiscal", "fish", "fist", "fit", "fitness",
+  "fix", "flag", "flame", "flash", "flat", "flavor", "flee", "flight", "flip",
+  "float", "floor", "flower", "fluid", "flush", "fly", "foam", "focus",
+  "fog", "fold", "follow", "food", "foot", "force", "forest", "forget",
+  "form", "formal", "format", "former", "fort", "fortune", "forum", "forward",
+  "fossil", "foster", "found", "fox", "fragile", "frame", "frequent", "fresh",
+  "friend", "fringe", "frog", "front", "frost", "frown", "frozen", "fruit",
+  "fuel", "full", "fun", "function", "fund", "funny", "fur", "furniture",
+  "further", "future", "galaxy", "gallery", "game", "gap", "garage", "garden",
+  "garlic", "gas", "gate", "gather", "gauge", "gaze", "general", "generate",
+  "genius", "genre", "gentle", "genuine", "gesture", "ghost", "giant", "gift",
+  "gig", "giraffe", "girl", "give", "glad", "glance", "glare", "glass", "glide",
+  "goal", "goat", "gold", "good", "goodbye", "goose", "gorilla", "gospel",
+  "gossip", "govern", "gown", "grab", "grace", "grain", "grand", "grant",
+  "grape", "graph", "grasp", "grass", "gravity", "gray", "great", "green",
+  "greet", "grief", "grin", "grip", "ground", "group", "grow", "growth",
+  "guard", "guess", "guest", "guide", "guilt", "guitar", "gun", "gym",
+  "habit", "hair", "half", "hammer", "hamster", "hand", "happy", "harbor",
+  "hard", "harmony", "hat", "hate", "have", "hawk", "hazard", "heart",
+  "heat", "heavy", "height", "hello", "helmet", "help", "hen", "hero",
+  "hidden", "high", "hill", "hint", "hire", "history", "hobby", "hockey",
+  "hold", "hole", "holiday", "hollow", "home", "honey", "hood", "hope",
+  "horn", "horror", "horse", "hospital", "hot", "hotel", "hour", "hover",
+  "hub", "huge", "human", "humble", "humid", "humor", "hundred", "hungry",
+  "hunt", "hurdle", "hurry", "hurt", "husband", "hybrid", "hydrate", "hype",
+  "hyper", "ice", "icon", "idea", "identify", "idle", "ignore", "ill",
+  "illegal", "illness", "illustrate", "image", "imitate", "immense", "immune",
+  "impact", "impose", "improve", "impulse", "inch", "include", "income",
+  "increase", "index", "indicate", "indoor", "industry", "infect", "influence",
+  "inform", "inhale", "inherit", "initial", "inject", "injury", "inmate",
+  "inner", "innocent", "input", "inquiry", "insane", "insect", "inside",
+  "inspire", "install", "intact", "interest", "into", "invest", "invite",
+  "involve", "iron", "island", "isolate", "issue", "item", "ivory", "jacket",
+  "jail", "jam", "jar", "jasmine", "jazz", "jeans", "jelly", "jewel", "job",
+  "join", "joke", "journey", "joy", "judge", "juice", "jump", "jungle", "junior",
+  "jury", "just", "keep", "ketchup", "key", "kick", "kid", "kill", "kind",
+  "kingdom", "kiss", "kit", "kitchen", "kite", "kitten", "kiwi", "knee",
+  "knife", "knock", "know", "lab", "label", "labor", "labrador", "lace",
+  "lady", "lake", "lamp", "language", "laptop", "large", "later", "latin",
+  "laugh", "laundry", "lava", "law", "lawn", "lawsuit", "layer", "lazy",
+  "lead", "leader", "learn", "leave", "lecture", "left", "leg", "legal",
+  "legend", "leisure", "lemon", "lend", "length", "lesson", "letter", "level",
+  "liar", "liberty", "library", "license", "life", "lift", "light", "like",
+  "limit", "link", "lion", "liquid", "list", "listen", "little", "live",
+  "lively", "lizard", "load", "loan", "lobster", "local", "logic", "lonely",
+  "long", "look", "loop", "loose", "lot", "loud", "love", "loyal", "luck",
+  "lucky", "luggage", "lumber", "lunar", "lunch", "luxury", "machine", "mad",
+  "magic", "magnet", "mail", "main", "major", "make", "mango", "mansion",
+  "manual", "map", "marble", "march", "margin", "marine", "market", "marriage",
+  "mask", "mass", "master", "match", "material", "math", "matrix", "matter",
+  "maximum", "may", "maze", "meal", "mean", "measure", "meat", "media",
+  "medical", "meet", "melody", "melt", "member", "memory", "mention", "menu",
+  "mercy", "merge", "merit", "merry", "metal", "meter", "method", "middle",
+  "midnight", "might", "mild", "milk", "million", "mind", "mine", "minor",
+  "minute", "miracle", "mirror", "miss", "mission", "mistake", "mix", "mixed",
+  "model", "modern", "modify", "mom", "moment", "money", "monkey", "month",
+  "moon", "moral", "more", "morning", "motivation", "mount", "mouse", "move",
+  "movie", "much", "muffin", "multiple", "museum", "music", "must", "mutual",
+  "myself", "mystery", "naked", "name", "natural", "nature", "near", "nearly",
+  "neat", "necessary", "neck", "need", "needle", "nerve", "nest", "network",
+  "neutral", "never", "news", "next", "nice", "night", "noble", "nobody",
+  "noise", "nominee", "none", "north", "nose", "not", "note", "nothing",
+  "notice", "novel", "nuclear", "number", "nurse", "nut", "oak", "ocean",
+  "october", "off", "offer", "office", "often", "oil", "okay", "old", "olive",
+  "olympic", "once", "one", "only", "open", "opera", "opinions", "opposite",
+  "orange", "orbit", "orchard", "order", "ordinary", "organ", "orient",
+  "original", "orphan", "ostrich", "other", "out", "outcome", "outdoor",
+  "outer", "output", "outside", "oval", "oven", "over", "owner", "oxygen",
+  "oyster", "ozone", "pact", "paddle", "page", "pain", "paint", "painter",
+  "pair", "palace", "palm", "panda", "panel", "panic", "panther", "paper",
+  "parade", "parent", "park", "parrot", "party", "pass", "passion", "past",
+  "patch", "path", "patient", "pattern", "pause", "pave", "payment", "peace",
+  "peanut", "pear", "peasant", "pelican", "pen", "penalty", "pencil", "people",
+  "pepper", "perfect", "permit", "person", "pet", "phone", "photo", "phrase",
+  "physical", "piano", "picnic", "picture", "piece", "pig", "pigeon", "pill",
+  "pilot", "pink", "pioneer", "pipe", "pistol", "pitch", "pizza", "place",
+  "planet", "plastic", "plate", "play", "please", "pledge", "pluck", "plug",
+  "plunge", "poem", "poet", "point", "polar", "pole", "police", "pond", "pony",
+  "pool", "popular", "portion", "position", "positive", "possible", "post",
+  "potato", "pottery", "poverty", "powder", "power", "practice", "praise",
+  "predict", "prefer", "prepare", "present", "pretty", "prevent", "price",
+  "pride", "primary", "print", "priority", "prison", "private", "prize",
+  "problem", "process", "produce", "profit", "program", "project", "promote",
+  "proof", "property", "prosper", "protect", "proud", "provide", "public",
+  "pudding", "pull", "pulp", "pulse", "pumpkin", "punch", "pupil", "puppy",
+  "purchase", "purity", "purpose", "purse", "push", "put", "puzzle", "pyramid",
+  "quality", "quantum", "quarter", "question", "quick", "quit", "quite",
+  "quote", "rabbit", "race", "rack", "radar", "radio", "rail", "rain", "raise",
+  "rally", "ramp", "ranch", "random", "range", "rapid", "rare", "rate",
+  "rather", "raven", "raw", "ray", "react", "ready", "real", "reason",
+  "rebel", "reboot", "recall", "receive", "recipe", "record", "reduce",
+  "reflect", "reform", "refuse", "region", "regret", "relate", "relax",
+  "release", "relief", "rely", "remain", "remember", "remind", "remove",
+  "render", "renew", "rent", "repair", "repeat", "replace", "report",
+  "require", "rescue", "resemble", "resist", "resource", "response",
+  "result", "retire", "retreat", "return", "reunion", "reveal", "review",
+  "reward", "rhythm", "rib", "ribbon", "rice", "rich", "ride", "ridge",
+  "rifle", "right", "rigid", "ring", "riot", "ripple", "risk", "ritual",
+  "rival", "river", "road", "roast", "robot", "rock", "rocket", "romance",
+  "roof", "rookie", "room", "rose", "rotate", "rough", "round", "route",
+  "royal", "rubber", "rude", "rug", "rule", "run", "runner", "rural",
+  "sad", "saddle", "sadness", "safe", "sail", "salad", "salary", "sale",
+  "salmon", "salute", "same", "sample", "sand", "sandy", "save", "say",
+  "scale", "scan", "scare", "scatter", "scene", "school", "science",
+  "scissors", "scoop", "score", "scout", "scrap", "screen", "script",
+  "scroll", "seal", "search", "season", "seat", "second", "secret",
+  "section", "security", "seed", "seek", "segment", "select", "sell",
+  "send", "senior", "sense", "sentence", "series", "service", "session",
+  "settle", "setup", "seven", "shadow", "shaft", "shame", "shape", "share",
+  "sharp", "shoes", "shoot", "shop", "short", "should", "shove", "shrimp",
+  "shrug", "shuffle", "shy", "sibling", "sick", "side", "siege", "signal",
+  "silent", "silly", "silver", "similar", "simple", "since", "sing", "siren",
+  "sister", "situate", "six", "size", "skate", "sketch", "skill", "skin",
+  "skirt", "skull", "slide", "small", "smart", "smile", "smoke", "smooth",
+  "snack", "snake", "snap", "sniff", "snow", "soap", "soccer", "social",
+  "sock", "soft", "solar", "soldier", "solid", "solution", "solve", "someone",
+  "song", "soon", "sorry", "sort", "soul", "sound", "soup", "source",
+  "south", "space", "spare", "spoon", "sport", "spot", "spray", "spread",
+  "spring", "sprout", "square", "squeeze", "squirrel", "stable", "stadium",
+  "staff", "stage", "stairs", "stamp", "stand", "start", "state", "station",
+  "stay", "steady", "steam", "steel", "stem", "step", "stereo", "stick",
+  "still", "sting", "stock", "stomach", "stone", "stool", "story", "stove",
+  "strategy", "street", "strike", "strong", "struggle", "student", "stuff",
+  "stumble", "style", "subject", "submit", "subway", "success", "such",
+  "sudden", "suffer", "sugar", "suggest", "suit", "summer", "sun", "sunny",
+  "super", "supply", "supreme", "sure", "surface", "surge", "surprise",
+  "surround", "survey", "suspect", "sustain", "swallow", "swamp", "swap",
+  "swarm", "swear", "sweet", "swift", "swim", "swing", "switch", "sword",
+  "symbol", "symptom", "syrup", "system", "table", "tackle", "tag", "tail",
+  "talent", "talk", "tank", "tape", "target", "task", "taste", "tattoo",
+  "taxi", "teach", "team", "tell", "ten", "tenant", "tennis", "tent",
+  "term", "test", "text", "thank", "that", "theater", "they", "thing",
+  "this", "thought", "thousand", "thrill", "thrive", "throw", "thumb",
+  "ticket", "tide", "tiger", "tilt", "timber", "time", "tiny", "tip",
+  "tired", "tissue", "title", "toast", "tobacco", "today", "together",
+  "toilet", "token", "tomato", "tomorrow", "tone", "tongue", "tonight",
+  "tool", "tooth", "top", "topic", "topple", "torch", "tornado", "tortoise",
+  "toss", "total", "tour", "tournament", "toward", "tower", "town", "toy",
+  "track", "trade", "traffic", "tragic", "train", "transfer", "trap",
+  "trash", "travel", "tray", "treat", "tree", "trend", "trial", "tribe",
+  "trick", "trigger", "trim", "trip", "trophy", "trouble", "truck", "true",
+  "truly", "trumpet", "trust", "truth", "try", "tube", "tuna", "tunnel",
+  "turkey", "turn", "turtle", "twelve", "twenty", "twice", "twitter",
+  "type", "typical", "ugly", "umbrella", "unable", "unaware", "uncle",
+  "uncover", "under", "undo", "unfair", "unfold", "unhappy", "uniform",
+  "unique", "unit", "universe", "unknown", "unlock", "until", "unusual",
+  "update", "upgrade", "uphold", "upon", "upper", "urban", "urge", "usage",
+  "use", "usual", "utility", "vacation", "vacuum", "vague", "valid",
+  "valley", "value", "van", "vapor", "variety", "varnish", "vast", "vault",
+  "vehicle", "velvet", "vendor", "venture", "venue", "verb", "verify", "version",
+  "very", "vessel", "veteran", "viable", "vibrant", "vicious", "victory",
+  "video", "view", "village", "vintage", "violin", "virtual", "virus",
+  "visa", "visit", "visual", "vital", "vivid", "vocal", "voice", "void",
+  "volcano", "volume", "vote", "voyage", "vulnerable", "wagon", "wait",
+  "walk", "wall", "walnut", "want", "war", "warm", "warrior", "wash",
+  "wasp", "waste", "water", "wave", "way", "wealth", "weapon", "wear",
+  "weasel", "weather", "web", "wedding", "week", "weigh", "weight", "welcome",
+  "west", "wet", "whale", "what", "wheat", "wheel", "when", "where",
+  "whisper", "wide", "width", " wife", "wild", "will", "win", "window",
+  "wine", "wing", "winner", "winter", "wire", "wisdom", "wise", "wish",
+  "witness", "wolf", "woman", "wonder", "wood", "wool", "word", "work",
+  "world", "worry", "worth", "wrap", "wreck", "wrestle", "wrist", "write",
+  "wrong", "yard", "year", "yellow", "you", "young", "youth", "zebra",
+  "zero", "zone", "zoo"
+];
+const progWordBank = [
+  "print", "function", "loop", "array", "const", "hello", "world", "return",
+  "keyboard", "screen", "python", "while", "input", "class", "object", "code",
+  "debug", "value", "true", "false", "index", "string", "var", "random",
+  "public", "static", "int", "char", "if", "else", "elif", "case", "break",
+  "math", "sum", "max", "min", "sqrt", "len", "sort", "map", "filter",
+  "for", "while", "do", "switch", "case", "default", "break", "continue",
+  "pass", "def", "lambda", "import", "from", "as", "try", "except", "finally",
+  "with", "yield", "async", "await", "raise", "global", "nonlocal", "assert",
+  "del", "in", "is", "not", "and", "or", "xor", "enum", "struct", "union",
+  "typedef", "namespace", "template", "public", "private", "protected",
+  "void", "main", "initialize", "pointer", "reference", "null", "undefined",
+  "true", "false", "boolean", "double", "float", "long", "short", "unsigned",
+  "signed", "volatile", "const", "constexpr", "static", "auto", "register",
+  "extern", "operator", "new", "delete", "this", "super", "extends", "implements",
+  "interface", "package", "module", "library", "method", "attribute",
+  "parameter", "argument", "return", "callback", "event", "handler", "listener",
+  "compile", "execute", "runtime", "debugger", "stack", "heap", "thread",
+  "process", "queue", "stack", "pointer", "reference", "byte", "char",
+  "string", "array", "list", "dictionary", "map", "set", "tuple", "boolean",
+  "integer", "float", "double", "null", "true", "false", "async", "sync",
+  "package", "import", "export", "module", "json", "xml", "yaml", "csv",
+  "api", "endpoint", "request", "response", "header", "body", "status",
+  "error", "exception", "log", "console", "terminal", "command", "script",
+  "execute", "build", "compile", "run", "test", "deploy", "version", "git",
+  "branch", "commit", "push", "pull", "clone", "merge", "rebase", "branch",
+  "pull request", "docker", "container", "image", "server", "client",
+  "database", "query", "table", "record", "transaction", "index", "schema",
+  "migration", " ORM", "SQL", "NoSQL", "cache", "session", "cookie",
+  "authentication", "authorization", "token", "JWT", "OAuth", "SSL", "TLS",
+  "cryptography", "hash", "encryption", "decryption", "password", "secret"
 ];
 const symbolBank = ["{","}","[","]","(",")",";","=","+","-","*","/","%","<",">","!",":","'","\"","`","|","&","#","@","?","1","2","3","4","5","6","7","8","9","0",".",","];
 
@@ -92,49 +386,53 @@ const timeEl   = document.getElementById('time');
 const wpmEl    = document.getElementById('wpm');
 const accEl    = document.getElementById('acc');
 const newBtn   = document.getElementById('new');
-const durationEl   = document.getElementById('duration');
-const useSymbolsEl = document.getElementById('useSymbols');
+const durationEl = document.getElementById('duration');
+const categoryEls = document.querySelectorAll('input[name="category"]');
 
 /* ===== State ===== */
-let buffer = "";          // full prompt buffer (grows as needed)
+let buffer = "";          
 let timer  = null;
 let remaining = 0;
 let started = false;
-let typedLen = 0;         // characters typed this round
+let totalTyped = 0;
+let totalCorrect = 0;
 
 /* ===== Prompt generation ===== */
 function randomFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-function generateChunk(lenWords=20){
-  let pool = [...wordBank];
-  if (useSymbolsEl.checked) pool = pool.concat(symbolBank);
-  const words = [];
+function generateChunk(category, lenWords=50){
+  let pool=[];
+  if(category==="all") pool = fullWordBank.concat(progWordBank).concat(symbolBank);
+  if(category==="words") pool = fullWordBank;
+  if(category==="prog") pool = progWordBank.concat(symbolBank);
+  const words=[];
   for(let i=0;i<lenWords;i++){ words.push(randomFrom(pool)); }
   return words.join(" ");
 }
 
-function ensureBuffer(){
-  // Keep at least 400 characters ahead of the user's position.
-  const ahead = buffer.length - typedLen;
-  while (ahead < 400) {
-    buffer += (buffer ? " " : "") + generateChunk(30);
+function ensureBuffer(category){
+  // Always keep ~500 characters ahead
+  if(buffer.length - inputEl.value.length < 500){
+    buffer += " " + generateChunk(category, 80);
+    promptEl.textContent = buffer;
   }
-  promptEl.textContent = buffer;
 }
 
 /* ===== Round control ===== */
 function resetRound(){
-  buffer = "";
-  typedLen = 0;
+  const category = document.querySelector('input[name="category"]:checked').value;
+  buffer = generateChunk(category, 100); // start long
+  promptEl.textContent = buffer;
+  inputEl.value="";
   started = false;
+  totalTyped = 0;
+  totalCorrect = 0;
   remaining = parseInt(durationEl.value);
   timeEl.textContent = remaining;
-  wpmEl.textContent  = "0";
-  accEl.textContent  = "100%";
-  inputEl.value = "";
+  wpmEl.textContent = "0";
+  accEl.textContent = "100%";
   inputEl.disabled = false;
-  if (timer) clearInterval(timer);
-  ensureBuffer();
+  if(timer) clearInterval(timer);
   inputEl.focus();
 }
 
@@ -152,29 +450,19 @@ function startTimer(){
 /* ===== Metrics ===== */
 function updateStats(){
   const typed = inputEl.value;
-  typedLen = typed.length;
-
-  // Extend buffer if we’re getting close to the end
-  ensureBuffer();
-
-  // Accuracy: compare typed to buffer substring
-  let correct = 0, errors = 0;
-  for (let i=0; i<typed.length; i++){
-    if (typed[i] === buffer[i]) correct++; else errors++;
-  }
-  const acc = Math.max(0, Math.round(100 * (correct / Math.max(typed.length,1))));
+  totalTyped++;
+  const pos = typed.length-1;
+  if(buffer[pos] && typed[pos]===buffer[pos]) totalCorrect++;
+  const acc = Math.max(0, Math.round(100 * (totalCorrect / totalTyped)));
   accEl.textContent = acc + "%";
 
-  // WPM: standard 5 chars per word, based on elapsed time
   const total = parseInt(durationEl.value);
   const elapsedMin = (total - remaining) / 60 || (1/60);
   const wpm = Math.round((typed.length / 5) / elapsedMin);
   wpmEl.textContent = String(wpm);
 
-  // Auto-scroll prompt so the current area stays visible
-  // (scroll to roughly where the caret is in the buffer)
-  const ratio = typed.length / buffer.length;
-  promptEl.scrollTop = ratio * (promptEl.scrollHeight - promptEl.clientHeight);
+  const category = document.querySelector('input[name="category"]:checked').value;
+  ensureBuffer(category);
 }
 
 /* ===== Events ===== */
@@ -186,12 +474,9 @@ inputEl.addEventListener('input', ()=>{
   updateStats();
 });
 
-// Rebuild prompt when options change
-useSymbolsEl.addEventListener('change', resetRound);
-durationEl.addEventListener('change', resetRound);
-
-// New prompt button
 newBtn.addEventListener('click', resetRound);
+durationEl.addEventListener('change', resetRound);
+categoryEls.forEach(el=>el.addEventListener('change', resetRound));
 
 /* ===== Init ===== */
 resetRound();
