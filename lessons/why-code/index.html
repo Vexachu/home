@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,67 +5,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Why Code?</title>
   <link rel="stylesheet" href="../../assets/style.css">
+  <style>
+    .slide {
+      display:none;
+      background:#1e293b;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:16px;
+      padding:28px;
+      min-height:360px;
+      position:relative;
+    }
+    .slide.active{display:block;}
+    .slide h2{margin-top:0}
+    .slide .nav-btns{
+      display:flex;justify-content:space-between;margin-top:20px;
+    }
+    .slide img{max-width:140px;margin:10px 0}
+    .robot{position:absolute;right:20px;bottom:20px;max-width:80px;opacity:.9}
+    .code{background:#0b1224;padding:8px 12px;border-radius:10px;font-family:monospace;white-space:pre-wrap}
+  </style>
 </head>
 <body>
 <header class="header">
   <div class="nav container">
-    <div class="brand"><div class="logo"></div> KidCoder</div>
-    <nav>
-      <a class="button secondary" href="../../index.html">Home</a>
-    </nav>
+    <div class="brand"><div class="logo"></div> Vex</div>
+    <nav><a class="button secondary" href="../../index.html">Home</a></nav>
   </div>
 </header>
 
 <main class="container">
-  <section class="hero">
-    <div class="kicker">Mindset</div>
-    <h1 class="h1">Why Code?</h1>
-    <p class="sub">Quick slides you can reorder later. Each card is a slide.</p>
-  </section>
 
-  <section class="grid">
-    <article class="card" style="grid-column:span 6">
-      <div class="body">
-        <h3>Creativity x Logic</h3>
-        <p>Code is creative problem‑solving. You design, test, and iterate — just like art and engineering combined.</p>
-      </div>
-    </article>
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <h2>Meet Python!</h2>
+    <h3>Our coding language</h3>
+    <ul>
+      <li>Just as many speaking languages exist (English, Spanish, Chinese…), so do coding languages (Python, Java, JavaScript, C++).</li>
+      <li>Python is one of the most popular and friendly for beginners.</li>
+      <li>Its code looks a lot like plain English — that’s why we start here.</li>
+    </ul>
+    <hr>
+    <p>I won’t get into more code just yet, but here’s an example:</p>
+    <div class="code">print("Hello, world!")</div>
+    <ul>
+      <li>The computer will <strong>print</strong> what we tell it to.</li>
+      <li>You can almost read it like a sentence.</li>
+      <li>Instead of “say”, we use the word <strong>print</strong>.</li>
+    </ul>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Python.svg" class="robot" alt="Robot">
+    <div class="nav-btns">
+      <span></span>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
 
-    <article class="card" style="grid-column:span 6">
-      <div class="body">
-        <h3>Real‑world impact</h3>
-        <p>From healthcare to climate, code powers solutions that matter. Your ideas can ship to millions.</p>
-      </div>
-    </article>
+  <!-- Slide 2 -->
+  <div class="slide">
+    <h2>But why code…</h2>
+    <h3>Become a creator, not just a player!</h3>
+    <ul>
+      <li>Programming lets you build your own games, apps, and stories.</li>
+      <li>It helps you think logically and solve problems.</li>
+      <li>You get to invent new and amazing things!</li>
+    </ul>
+    <p>You can make many kinds of games. Popular ones like <em>Minecraft</em> use programming — especially Python, which we’ll explore soon.</p>
+    <p>It’s not just games though… you can use programming for Instagram, movie editing, or even controlling robots.</p>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
 
-    <article class="card" style="grid-column:span 6">
-      <div class="body">
-        <h3>Career superpower</h3>
-        <p>Coding unlocks internships, research, and projects across every field — not just “computer jobs.”</p>
-      </div>
-    </article>
+  <!-- Slide 3 -->
+  <div class="slide">
+    <h2>But what is code?</h2>
+    <h3>Code is like a recipe!</h3>
+    <ul>
+      <li>To make a cake, you need a recipe. To make a computer do something, you need code.</li>
+      <li>If you forget a step in a recipe, the cake won’t turn out right.</li>
+      <li>If you forget a step in code, the computer gets confused!</li>
+    </ul>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Cake_icon.svg/240px-Cake_icon.svg.png" alt="Cake" style="max-width:100px">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Computer_clipart.png" alt="Computer" style="max-width:100px">
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
 
-    <article class="card" style="grid-column:span 6">
-      <div class="body">
-        <h3>Make games & apps</h3>
-        <p>Build something you can play, share, and improve. Start tiny; iterate fast.</p>
-      </div>
-    </article>
+  <!-- Slide 4 -->
+  <div class="slide">
+    <h2>Computers and Code</h2>
+    <h3>How to talk to a computer</h3>
+    <ul>
+      <li>Computers are smart… but not that smart.</li>
+      <li>They need step-by-step instructions for everything they do.</li>
+      <li>Just like a pet needs training, a computer needs instructions — this is “code.”</li>
+    </ul>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <span>✔ Done!</span>
+    </div>
+  </div>
 
-    <article class="card" style="grid-column:span 12">
-      <div class="body">
-        <h3>How we’ll learn here</h3>
-        <ul>
-          <li>Short lessons with examples.</li>
-          <li>Type, run, and tweak code in the browser.</li>
-          <li>Build up from visuals to logic to projects.</li>
-        </ul>
-      </div>
-    </article>
-  </section>
 </main>
 
-<footer class="footer">© <span id="year"></span> KidCoder • Why Code</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+<footer class="footer">© <span id="year"></span> Vex • Why Code</footer>
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+const slides=[...document.querySelectorAll('.slide')];
+let idx=0;
+function show(i){
+  slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+  idx=i;
+}
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+</script>
 </body>
 </html>
