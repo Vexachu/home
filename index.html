@@ -35,6 +35,7 @@
         <div class="logo"></div>
         <span id="brandName">Guest</span>
         <span class="badge">beta</span>
+        <span id="authStatus" class="badge">auth: ?</span>
       </div>
 
       <!-- CENTER: auth buttons -->
@@ -153,6 +154,15 @@
 
   <!-- Firebase inline (single-file) -->
   <script type="module">
+    const statusEl = document.getElementById("authStatus");
+    function setStatus(msg){ if(statusEl) statusEl.textContent = `auth: ${msg}`; }
+    
+    onAuthStateChanged(auth, async (user) => {
+      setStatus(user ? "signed in" : "signed out");
+      if (user) await renderSignedIn(user);
+      else renderSignedOut();
+    });
+
     // --- Firebase SDK imports (modular) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import {
