@@ -23,6 +23,21 @@
     .slide img{max-width:140px;margin:10px 0}
     .robot{position:absolute;right:20px;bottom:20px;max-width:80px;opacity:.9}
     .code{background:#0b1224;padding:8px 12px;border-radius:10px;font-family:monospace;white-space:pre-wrap}
+
+    .progress{
+      background:#0f172a;
+      height:8px;
+      border-radius:4px;
+      margin:12px 0;
+      overflow:hidden;
+    }
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:#38bdf8;
+      transition:width 0.3s ease;
+    }
+
   </style>
 </head>
 <body>
@@ -32,6 +47,11 @@
     <nav><a class="button secondary" href="../../index.html">Home</a></nav>
   </div>
 </header>
+  
+<div class="progress">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
 
 <main class="container">
 
@@ -104,19 +124,132 @@
     </div>
   </div>
 
+    <!-- Slide 5 -->
+  <div class="slide">
+    <h2>How Computers Think</h2>
+    <h3>Why computers need clear steps</h3>
+    <ul>
+      <li>Computers don’t guess or “figure it out.”</li>
+      <li>They follow instructions <strong>exactly</strong> as written.</li>
+      <li>If a step is missing or unclear, they stop and ask for help.</li>
+      <li>Coding is really just being clear and specific.</li>
+    </ul>
+    <p><em>Example:</em> 1) Say hello → 2) Ask for a name → 3) Say hello with the name.<br>
+    If step 2 is missing, the computer can’t do step 3!</p>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide">
+    <h2>How Computers Read Code</h2>
+    <h3>One step at a time, top to bottom</h3>
+    <ul>
+      <li>A program is like a checklist.</li>
+      <li>The computer starts at the top and goes line by line.</li>
+      <li>Each line tells it to do one small thing.</li>
+      <li>Many small steps = one working project.</li>
+    </ul>
+    <p><em>Tip:</em> If something seems wrong, check the <strong>order</strong> of your steps first.</p>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 7 -->
+  <div class="slide">
+    <h2>When Things Go Wrong (Bugs!)</h2>
+    <h3>Mistakes are normal—and useful</h3>
+    <ul>
+      <li>A <em>bug</em> is just a mistake in the instructions.</li>
+      <li><em>Debugging</em> means finding where the steps went wrong and fixing them.</li>
+      <li>Everyone—beginners and experts—debugs all the time.</li>
+      <li>The messages the computer shows are clues, not “you failed” screens.</li>
+    </ul>
+    <p><em>Mindset:</em> Try one small change, test it, repeat. That’s how coders think.</p>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide">
+    <h2>The Human Side of Coding</h2>
+    <h3>Coding is about people, not just computers</h3>
+    <ul>
+      <li>Every app, game, and robot starts with someone trying to help or create.</li>
+      <li>Coders work in teams, share ideas, and learn from mistakes.</li>
+      <li>Coding builds skills you use everywhere: problem solving, patience, creativity.</li>
+      <li>You don’t have to “be a genius.” You just start, learn, and keep going.</li>
+    </ul>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 9 -->
+  <div class="slide">
+    <h2>Try It Yourself!</h2>
+    <h3>A tiny place to talk to the computer</h3>
+    <p>Change the words inside the quotes and press <strong>Run</strong> — the computer will say exactly what you tell it to.</p>
+    <div class="code" contenteditable="true">print("Hello, world!")</div>
+    <button class="button secondary" id="runBtn">Run ▶</button>
+    <pre id="output" class="code"></pre>
+    <script>
+      const runBtn=document.getElementById('runBtn');
+      const codeBox=document.querySelector('.code[contenteditable]');
+      const output=document.getElementById('output');
+      runBtn.addEventListener('click',()=>{
+        const text=codeBox.textContent.match(/"(.*?)"/g);
+        if(text){
+          output.textContent=text.map(t=>t.replaceAll('"','')).join('\n');
+        }else output.textContent="(nothing to print)";
+      });
+    </script>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide">
+    <h2>What’s Next?</h2>
+    <h3>You just took your first steps—nice!</h3>
+    <ul>
+      <li>You learned how computers think, how code is read, and how bugs help us learn.</li>
+      <li>Next time, you’ll learn how programs can <strong>remember</strong> things using variables.</li>
+      <li>Ready to keep going?</li>
+    </ul>
+    <button class="button secondary">Continue to Level 2 →</button>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <span>🎉 Lesson Complete!</span>
+    </div>
+  </div>
+
+
 </main>
 
 <footer class="footer">© <span id="year"></span> Vex • Why Code</footer>
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
 const slides=[...document.querySelectorAll('.slide')];
+const bar=document.getElementById('progressBar');
 let idx=0;
 function show(i){
   slides.forEach((s,n)=>s.classList.toggle('active',n===i));
   idx=i;
+  bar.style.width=((i+1)/slides.length*100)+'%';
 }
 document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
 document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+show(0);
 </script>
 </body>
 </html>
