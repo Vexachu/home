@@ -6,6 +6,16 @@
   <title>KidCoder — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css">
   <style>
+    /* Put nav in 3 columns: left brand, center auth, right search */
+    .header .nav{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+    }
+    .header .nav .brand{ justify-self:start; display:flex; align-items:center; gap:8px; }
+    .header .nav .auth{ justify-self:center; display:flex; gap:8px; }
+    .header .nav .search{ justify-self:end; }
+
     /* page-specific tweaks */
     .search { display:flex; align-items:center; gap:8px; }
     .search input[type="search"]{
@@ -20,14 +30,27 @@
 </head>
 <body>
   <header class="header">
-    <div class="nav container">
-      <div class="brand"><div class="logo"></div> ExamplePerson <span class="badge">beta</span></div>
-      <div class="search">
-        <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
-        <input id="lesson-search" type="search" placeholder="Search lessons…">
-      </div>
+  <div class="nav container">
+    <!-- LEFT: brand name that we'll swap to user's first name -->
+    <div class="brand">
+      <div class="logo"></div>
+      <span id="brandName">Guest</span>
+      <span class="badge">beta</span>
     </div>
-  </header>
+
+    <!-- CENTER: auth buttons -->
+    <div class="auth" id="authCenter">
+      <button id="loginBtn" class="button secondary">Sign in</button>
+      <button id="logoutBtn" class="button secondary" style="display:none">Sign out</button>
+    </div>
+
+    <!-- RIGHT: existing search -->
+    <div class="search">
+      <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
+      <input id="lesson-search" type="search" placeholder="Search lessons…">
+    </div>
+  </div>
+</header>
 
   <main class="container">
     <section class="hero">
@@ -137,29 +160,46 @@
   </div>
 
   <script type="module">
-    import { signInWithGoogle, signOutUser, watchAuth } from "./assets/firebase.js";
-
+    import { signInWithGoogle, signOutUser, watchAuth, db } from "./assets/firebase.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  
     const login  = document.getElementById("loginBtn");
     const logout = document.getElementById("logoutBtn");
-    const who    = document.getElementById("who");
-
+    const brand  = document.getElementById("brandName");
+  
+    // Prefer a Firestore-stored username; otherwise use first name from Google
+    async function preferredName(user){
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists() && snap.data().username) return snap.data().username;
+      } catch (e) { /* ignore */ }
+      const full = user.displayName || user.email || "User";
+      return full.split(" ")[0]; // first word of display name
+    }
+  
     login.addEventListener("click", async () => {
-      try { await signInWithGoogle(); } catch (e) { alert(e.message); }
+      try { await signInWithGoogle(); }
+      catch (e) { alert(e.message); }
     });
+  
     logout.addEventListener("click", async () => {
-      try { await signOutUser(); } catch (e) { alert(e.message); }
+      try { await signOutUser(); }
+      catch (e) { alert(e.message); }
     });
-
-    watchAuth((user) => {
+  
+    watchAuth(async (user) => {
       if (user) {
-        who.textContent = `Signed in as ${user.displayName || user.email}`;
+        brand.textContent = await preferredName(user);
+        login.style.display  = "none";
+        logout.style.display = "";
       } else {
-        who.textContent = "Not signed in";
+        brand.textContent = "Guest";
+        login.style.display  = "";
+        logout.style.display = "none";
       }
-      login.style.display  = user ? "none" : "";
-      logout.style.display = user ? "" : "none";
     });
   </script>
+
 
   <script type="module" src="assets/app.js"></script>
   <script>
