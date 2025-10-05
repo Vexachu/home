@@ -129,6 +129,38 @@
 
   <footer class="footer">© <span id="year"></span> Vex • Built for students</footer>
 
+  <!-- Add sign-in box just above your existing scripts -->
+  <div id="authBox" class="card" style="padding:12px;margin:20px 0;">
+    <button id="loginBtn" class="button secondary">Sign in with Google</button>
+    <button id="logoutBtn" class="button secondary" style="display:none">Sign out</button>
+    <span class="tag" id="who"></span>
+  </div>
+
+  <script type="module">
+    import { signInWithGoogle, signOutUser, watchAuth } from "./assets/firebase.js";
+
+    const login  = document.getElementById("loginBtn");
+    const logout = document.getElementById("logoutBtn");
+    const who    = document.getElementById("who");
+
+    login.addEventListener("click", async () => {
+      try { await signInWithGoogle(); } catch (e) { alert(e.message); }
+    });
+    logout.addEventListener("click", async () => {
+      try { await signOutUser(); } catch (e) { alert(e.message); }
+    });
+
+    watchAuth((user) => {
+      if (user) {
+        who.textContent = `Signed in as ${user.displayName || user.email}`;
+      } else {
+        who.textContent = "Not signed in";
+      }
+      login.style.display  = user ? "none" : "";
+      logout.style.display = user ? "" : "none";
+    });
+  </script>
+
   <script type="module" src="assets/app.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
