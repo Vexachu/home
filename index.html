@@ -151,15 +151,56 @@
 
   <footer class="footer">© <span id="year"></span> Vex • Built for students</footer>
 
-  <!-- Auth & header logic -->
+  <!-- Firebase inline (single-file) -->
   <script type="module">
-    import { app, auth, db, signInWithGoogle, signOutUser } from "./assets/firebase.js";
-    import { onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    // --- Firebase SDK imports (modular) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, signOut,
+      onAuthStateChanged, setPersistence,
+      browserLocalPersistence, browserSessionPersistence
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import {
+      getFirestore, doc, setDoc, getDoc
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
+    // --- TODO: paste your config EXACTLY from Firebase console ---
+    const firebaseConfig = {
+      apiKey: "YOUR_KEY",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "your-project",
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abc123"
+      // measurementId is optional
+    };
+
+    // --- Init ---
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // --- DOM ---
     const login  = document.getElementById("loginBtn");
     const logout = document.getElementById("logoutBtn");
     const brand  = document.getElementById("brandName");
+
+    // --- Helpers ---
+    async function upsertUser(u){
+      try {
+        await setDoc(doc(db, "users", u.uid), {
+          uid: u.uid,
+          displayName: u.displayName || "",
+          email: u.email || "",
+          photoURL: u.photoURL || "",
+          lastLogin: Date.now()
+        }, { merge: true });
+      } catch (e) {
+        // Firestore not set up yet? That's fine—ignore for now.
+        console.warn("profile upsert skipped:", e.message);
+      }
+    }
 
     async function preferredName(user){
       try {
@@ -181,37 +222,52 @@
       logout.style.display = "";
     }
 
-    // Ensure persistent sessions and watch auth changes
-    await setPersistence(auth, browserLocalPersistence);
-    onAuthStateChanged(auth, async (user) => {
-      if (user) await renderSignedIn(user);
-      else renderSignedOut();
-    });
-
-    // Buttons
+    // --- Wire buttons ---
     login.addEventListener("click", async () => {
       try {
         login.disabled = true;
-        await signInWithGoogle();
-        if (auth.currentUser) await renderSignedIn(auth.currentUser); // instant fallback
-      } catch (e) { alert(e.message); }
-      finally { login.disabled = false; }
+        const res = await signInWithPopup(auth, provider);
+        await upsertUser(res.user);
+        await renderSignedIn(res.user); // instant UI swap
+      } catch (e) {
+        alert(e.message);
+      } finally {
+        login.disabled = false;
+      }
     });
 
     logout.addEventListener("click", async () => {
       try {
         logout.disabled = true;
-        await signOutUser();
+        await signOut(auth);
         renderSignedOut();
-      } catch (e) { alert(e.message); }
-      finally { logout.disabled = false; }
+      } catch (e) {
+        alert(e.message);
+      } finally {
+        logout.disabled = false;
+      }
     });
+
+    // --- Persistence + auth watcher in a safe IIFE (no top-level await issues) ---
+    (async () => {
+      try {
+        await setPersistence(auth, browserLocalPersistence);
+      } catch {
+        // Fallback if local persistence is blocked (e.g., strict Safari settings)
+        await setPersistence(auth, browserSessionPersistence);
+      }
+      onAuthStateChanged(auth, async (user) => {
+        if (user) await renderSignedIn(user);
+        else renderSignedOut();
+      });
+    })();
   </script>
 
   <!-- Your existing app code -->
   <script type="module" src="assets/app.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
     // Simple client-side search for lesson cards
     const input = document.getElementById('lesson-search');
     const cards = Array.from(document.querySelectorAll('#lesson-grid .card'));
