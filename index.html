@@ -6,7 +6,7 @@
   <title>KidCoder — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css">
   <style>
-    /* Put nav in 3 columns: left brand, center auth, right search */
+    /* Header layout: left brand, center auth, right search */
     .header .nav{
       display:grid;
       grid-template-columns: 1fr auto 1fr;
@@ -15,8 +15,7 @@
     .header .nav .brand{ justify-self:start; display:flex; align-items:center; gap:8px; }
     .header .nav .auth{ justify-self:center; display:flex; gap:8px; }
     .header .nav .search{ justify-self:end; }
-
-    /* page-specific tweaks */
+    /* Page-specific tweaks */
     .search { display:flex; align-items:center; gap:8px; }
     .search input[type="search"]{
       background:#0b1224; color:var(--text);
@@ -30,27 +29,27 @@
 </head>
 <body>
   <header class="header">
-  <div class="nav container">
-    <!-- LEFT: brand name that we'll swap to user's first name -->
-    <div class="brand">
-      <div class="logo"></div>
-      <span id="brandName">Guest</span>
-      <span class="badge">beta</span>
-    </div>
+    <div class="nav container">
+      <!-- LEFT: brand swaps to user's name when signed in -->
+      <div class="brand">
+        <div class="logo"></div>
+        <span id="brandName">Guest</span>
+        <span class="badge">beta</span>
+      </div>
 
-    <!-- CENTER: auth buttons -->
-    <div class="auth" id="authCenter">
-      <button id="loginBtn" class="button secondary">Sign in</button>
-      <button id="logoutBtn" class="button secondary" style="display:none">Sign out</button>
-    </div>
+      <!-- CENTER: auth buttons -->
+      <div class="auth" id="authCenter">
+        <button id="loginBtn" class="button secondary">Sign in</button>
+        <button id="logoutBtn" class="button secondary" style="display:none">Sign out</button>
+      </div>
 
-    <!-- RIGHT: existing search -->
-    <div class="search">
-      <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
-      <input id="lesson-search" type="search" placeholder="Search lessons…">
+      <!-- RIGHT: search -->
+      <div class="search">
+        <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
+        <input id="lesson-search" type="search" placeholder="Search lessons…">
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
   <main class="container">
     <section class="hero">
@@ -152,54 +151,67 @@
 
   <footer class="footer">© <span id="year"></span> Vex • Built for students</footer>
 
-
-
+  <!-- Auth & header logic -->
   <script type="module">
-    import { signInWithGoogle, signOutUser, watchAuth, db } from "./assets/firebase.js";
+    import { app, auth, db, signInWithGoogle, signOutUser } from "./assets/firebase.js";
+    import { onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-  
+
     const login  = document.getElementById("loginBtn");
     const logout = document.getElementById("logoutBtn");
     const brand  = document.getElementById("brandName");
-  
-    // Prefer a Firestore-stored username; otherwise use first name from Google
+
     async function preferredName(user){
       try {
         const snap = await getDoc(doc(db, "users", user.uid));
         if (snap.exists() && snap.data().username) return snap.data().username;
-      } catch (e) { /* ignore */ }
-      const full = user.displayName || user.email || "User";
-      return full.split(" ")[0]; // first word of display name
+      } catch {}
+      const full = user?.displayName || user?.email || "User";
+      return full.split(" ")[0];
     }
-  
+
+    function renderSignedOut(){
+      brand.textContent = "Guest";
+      login.style.display  = "";
+      logout.style.display = "none";
+    }
+    async function renderSignedIn(user){
+      brand.textContent = await preferredName(user);
+      login.style.display  = "none";
+      logout.style.display = "";
+    }
+
+    // Ensure persistent sessions and watch auth changes
+    await setPersistence(auth, browserLocalPersistence);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) await renderSignedIn(user);
+      else renderSignedOut();
+    });
+
+    // Buttons
     login.addEventListener("click", async () => {
-      try { await signInWithGoogle(); }
-      catch (e) { alert(e.message); }
+      try {
+        login.disabled = true;
+        await signInWithGoogle();
+        if (auth.currentUser) await renderSignedIn(auth.currentUser); // instant fallback
+      } catch (e) { alert(e.message); }
+      finally { login.disabled = false; }
     });
-  
+
     logout.addEventListener("click", async () => {
-      try { await signOutUser(); }
-      catch (e) { alert(e.message); }
-    });
-  
-    watchAuth(async (user) => {
-      if (user) {
-        brand.textContent = await preferredName(user);
-        login.style.display  = "none";
-        logout.style.display = "";
-      } else {
-        brand.textContent = "Guest";
-        login.style.display  = "";
-        logout.style.display = "none";
-      }
+      try {
+        logout.disabled = true;
+        await signOutUser();
+        renderSignedOut();
+      } catch (e) { alert(e.message); }
+      finally { logout.disabled = false; }
     });
   </script>
 
-
+  <!-- Your existing app code -->
   <script type="module" src="assets/app.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
     // Simple client-side search for lesson cards
     const input = document.getElementById('lesson-search');
     const cards = Array.from(document.querySelectorAll('#lesson-grid .card'));
