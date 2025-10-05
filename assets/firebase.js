@@ -1,14 +1,18 @@
+
+
+
+
+
 // assets/firebase.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
-  getAuth, onAuthStateChanged, signInWithPopup,
-  GoogleAuthProvider, signOut
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import {
   getFirestore, doc, setDoc
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// 🔒 Paste your config here (apiKey, authDomain, etc.) with normal quotes:
+// ⬇️ Paste YOUR config values (from Firebase console) with normal quotes:
 const firebaseConfig = {
   apiKey: "AIzaSyBG0O5Shzzq7CbLRwy2wwtgh9tw8MW-ZTs",
   authDomain: "coding-website-680b3.firebaseapp.com",
@@ -19,16 +23,16 @@ const firebaseConfig = {
   measurementId: "G-YBBJ31HQSR"
 };
 
+
 export const app  = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db   = getFirestore(app);
 
-// Helpers you'll likely use right away:
 const provider = new GoogleAuthProvider();
 
 export async function signInWithGoogle() {
   const res = await signInWithPopup(auth, provider);
-  // Create/update a basic user profile doc on first sign-in:
+  // Upsert a basic user profile
   await setDoc(doc(db, "users", res.user.uid), {
     uid: res.user.uid,
     displayName: res.user.displayName || "",
@@ -43,7 +47,3 @@ export async function signOutUser() {
   await signOut(auth);
 }
 
-export function watchAuth(callback) {
-  // callback(user|null)
-  return onAuthStateChanged(auth, callback);
-}
