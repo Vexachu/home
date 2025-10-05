@@ -55,14 +55,18 @@ bob.forward(50)</pre>
             <button class="button secondary" data-run>Run</button>
           </div>
 <textarea spellcheck="false">
+# if you are unfamiliar with code, make sure to note
+# that anything inside of "#" is a comment in
+# python, and it is NOT a part of the code
 import turtle
 
 bob = turtle.Turtle()
-bob.color("black")
+#if you want, you can change bob's color!
+bob.color("white")
 bob.shape("turtle")
 
 # Write here:
-bob.forward(100)
+
 </textarea>
           <pre class="console"></pre>
         </div>
@@ -71,7 +75,7 @@ bob.forward(100)
         <div class="out-box" id="py-canvas"></div>
       </div>
     </div>
-    <p><em>Woahh good job! Now let’s try one new thing… turning 👀</em></p>
+    <p><em>If you forgot how to do it, here you go: bob.forward(100) | Now let’s try one new thing… turning 👀</em></p>
     <div class="nav-btns">
       <button class="button secondary" data-prev>⬅ Back</button>
       <button class="button secondary" data-next>Next ➡</button>
@@ -84,9 +88,15 @@ bob.forward(100)
     <p>You can use <code>.left()</code> or <code>.right()</code> to make your turtle turn!</p>
     <pre class="code-box">import turtle
 bob = turtle.Turtle()
-for _ in range(4):
-    bob.forward(80)
-    bob.left(90)</pre>
+bob.forward(80)
+bob.left(90) 
+#the code above makes bob turn left by 90 degrees
+bob.forward(80)
+bob.left(90) 
+bob.forward(80)
+bob.left(90) 
+bob.forward(80)
+    </pre>
     <p>This makes a square! Try changing the distance or angles to make new shapes.</p>
     <div class="nav-btns">
       <button class="button secondary" data-prev>⬅ Back</button>
