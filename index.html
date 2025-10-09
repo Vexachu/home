@@ -1,169 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KidCoder — Learn by Doing</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LogicPoint • Firebase Auth Demo</title>
+  <link rel="stylesheet" href="assets/style.css" />
   <style>
-    /* Header layout: left brand, center auth, right search */
-    .header .nav{
-      display:grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items:center;
-    }
-    .header .nav .brand{ justify-self:start; display:flex; align-items:center; gap:8px; }
-    .header .nav .auth{ justify-self:center; display:flex; gap:8px; }
-    .header .nav .search{ justify-self:end; }
-    /* Page-specific tweaks */
-    .search { display:flex; align-items:center; gap:8px; }
-    .search input[type="search"]{
-      background:#0b1224; color:var(--text);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:12px; padding:10px 12px; min-width:240px;
-      outline:none;
-    }
-    .search input[type="search"]::placeholder{ color:var(--muted); }
-    .hidden{ display:none !important; }
+    /* minimal safe defaults if your style.css is empty */
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
+    header { display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid #0001; }
+    .brand { font-weight:700; }
+    .spacer { flex:1 }
+    .pill { padding:8px 14px; border-radius:999px; border:1px solid #0002; background:#00000008; cursor:pointer; }
+    .pill[disabled]{ opacity:.6; cursor:not-allowed; }
+    main { max-width:900px; margin:24px auto; padding:0 18px; }
+    .card { border:1px solid #0001; border-radius:16px; padding:18px; }
+    .muted { opacity:.7; font-size:.95rem; }
+    #authStatus { font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="nav container">
-      <!-- LEFT: brand swaps to user's name when signed in -->
-      <div class="brand">
-        <div class="logo"></div>
-        <span id="brandName">Guest</span>
-        <span class="badge">beta</span>
-        <span id="authStatus" class="badge">auth: ?</span>
-      </div>
 
-      <!-- CENTER: auth buttons -->
-      <div class="auth" id="authCenter">
-        <button id="loginBtn" class="button secondary">Sign in</button>
-        <button id="logoutBtn" class="button secondary" style="display:none">Sign out</button>
-      </div>
-
-      <!-- RIGHT: search -->
-      <div class="search">
-        <label for="lesson-search" class="badge" style="position:absolute;left:-9999px">Search lessons</label>
-        <input id="lesson-search" type="search" placeholder="Search lessons…">
-      </div>
-    </div>
+  <header>
+    <div class="brand" id="brandName">Guest</div>
+    <div id="authStatus" class="muted">auth: …</div>
+    <div class="spacer"></div>
+    <button id="loginBtn"  class="pill">Sign in with Google</button>
+    <button id="logoutBtn" class="pill" style="display:none">Sign out</button>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="kicker">Welcome</div>
-      <h1 class="h1">Coding for everyone</h1>
-      <p class="sub">Start with simple code you can see and tweak. Each lesson includes examples, practice, and an in-browser editor so you can learn by doing.</p>
-      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-        <a class="button" href="lessons/intro/">Start: Intro to Coding</a>
-        <a class="button secondary" href="lessons/typing/">Typing</a>
-      </div>
-    </section>
-
-    <section>
-      <div class="grid" id="lesson-grid">
-        <!-- Intro lesson -->
-        <article class="card" data-title="Intro to Coding: Move & Draw" data-tags="intro move draw canvas commands loops beginner">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Beginner</span>
-            <h3>Intro to Coding: Move & Draw</h3>
-            <p>Make shapes move on a canvas and draw patterns. </p>
-          </div>
-          <div class="foot">
-            <a class="button" href="lessons/intro/">Open Lesson</a>
-            <span class="badge">~20 min</span>
-          </div>
-        </article>
-
-        <!-- Typing skills -->
-        <article class="card" data-title="Typing Skills" data-tags="typing keyboard accuracy wpm practice foundation">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Foundation</span>
-            <h3>Typing Skills</h3>
-            <p>Practice accurate, steady typing with fun prompts so coding feels natural.</p>
-          </div>
-          <div class="foot">
-            <a class="button" href="lessons/typing/">Open Lesson</a>
-            <span class="badge">~10 min</span>
-          </div>
-        </article>
-
-        <!-- Why Code -->
-        <article class="card" data-title="Why Code?" data-tags="why code motivation slides overview mindset">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Mindset</span>
-            <h3>Why Code?</h3>
-            <p>Explore how coding powers the world, from games to robots.</p>
-          </div>
-          <div class="foot">
-            <a class="button" href="lessons/why-code/">Open Lesson</a>
-            <span class="badge">5–7 min</span>
-          </div>
-        </article>
-
-        <!-- Placeholders -->
-        <article class="card" data-title="Loops & Patterns" data-tags="loops patterns drawing shapes repeat art">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Coming soon</span>
-            <h3>Loops & Patterns</h3>
-            <p>Repeat yourself to draw spirals, stars, and satisfying patterns.</p>
-          </div>
-          <div class="foot">
-            <a class="button secondary" href="#">Soon</a>
-            <span class="badge">TBA</span>
-          </div>
-        </article>
-
-        <article class="card" data-title="Interactive Stories" data-tags="interactive stories choose your path narrative">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Coming soon</span>
-            <h3>Interactive Stories</h3>
-            <p>Combine code and creativity to build choose-your-path mini adventures.</p>
-          </div>
-          <div class="foot">
-            <a class="button secondary" href="#">Soon</a>
-            <span class="badge">TBA</span>
-          </div>
-        </article>
-
-        <article class="card" data-title="Mini-Games" data-tags="games mini keyboard input collisions">
-          <div class="thumb"></div>
-          <div class="body">
-            <span class="tag">Coming soon</span>
-            <h3>Mini-Games</h3>
-            <p>Use keyboard input and collisions to build tiny games step by step.</p>
-          </div>
-          <div class="foot">
-            <a class="button secondary" href="#">Soon</a>
-            <span class="badge">TBA</span>
-          </div>
-        </article>
-      </div>
-    </section>
+  <main>
+    <div class="card">
+      <h2>Welcome</h2>
+      <p class="muted">
+        This page demonstrates Firebase Auth (Google). Your real config is loaded from
+        <code>assets/firebase-config.js</code>, which is <em>ignored by git</em>.
+      </p>
+      <pre id="debug" class="muted" style="white-space:pre-wrap"></pre>
+    </div>
   </main>
 
-  <footer class="footer">© <span id="year"></span> Vex • Built for students</footer>
-
-  <!-- Firebase inline (single-file) -->
+  <!-- Firebase + app logic -->
   <script type="module">
-    const statusEl = document.getElementById("authStatus");
-    function setStatus(msg){ if(statusEl) statusEl.textContent = `auth: ${msg}`; }
-    
-    onAuthStateChanged(auth, async (user) => {
-      setStatus(user ? "signed in" : "signed out");
-      if (user) await renderSignedIn(user);
-      else renderSignedOut();
-    });
+    // 1) import your **local** config (keep real keys only in assets/firebase-config.js)
+    import { firebaseConfig } from "./assets/firebase-config.js";
 
-    // --- Firebase SDK imports (modular) ---
+    // 2) import Firebase SDKs (v11)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import {
       getAuth, GoogleAuthProvider, signInWithPopup, signOut,
@@ -171,99 +54,101 @@
       browserLocalPersistence, browserSessionPersistence
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import {
-      getFirestore, doc, setDoc, getDoc
+      getFirestore, doc, getDoc, setDoc, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // --- TODO: paste your config EXACTLY from Firebase console ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyBG0O5Shzzq7CbLRwy2wwtgh9tw8MW-ZTs",
-      authDomain: "coding-website-680b3.firebaseapp.com",
-      projectId: "coding-website-680b3",
-      storageBucket: "coding-website-680b3.firebasestorage.app",
-      messagingSenderId: "511596267555",
-      appId: "1:511596267555:web:f39160d2455a2379658996",
-      measurementId: "G-YBBJ31HQSR"
-    };
-
-    // --- Init ---
+    // 3) init
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    // --- DOM ---
-    const login  = document.getElementById("loginBtn");
-    const logout = document.getElementById("logoutBtn");
-    const brand  = document.getElementById("brandName");
+    // 4) dom refs
+    const statusEl = document.getElementById("authStatus");
+    const brandEl  = document.getElementById("brandName");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn= document.getElementById("logoutBtn");
+    const debugEl  = document.getElementById("debug");
 
-    // --- Helpers ---
+    const setStatus = (s) => { statusEl.textContent = `auth: ${s}`; };
+    const show = (el, on) => { el.style.display = on ? "" : "none"; };
+
+    // 5) tiny helpers
     async function upsertUser(u){
+      // keep user profile in /users/{uid}
       try {
         await setDoc(doc(db, "users", u.uid), {
           uid: u.uid,
-          displayName: u.displayName || "",
-          email: u.email || "",
-          photoURL: u.photoURL || "",
-          lastLogin: Date.now()
+          displayName: u.displayName ?? "",
+          email: u.email ?? "",
+          photoURL: u.photoURL ?? "",
+          updatedAt: serverTimestamp()
         }, { merge: true });
       } catch (e) {
-        // Firestore not set up yet? That's fine—ignore for now.
-        console.warn("profile upsert skipped:", e.message);
+        console.warn("upsertUser skipped:", e.message);
       }
     }
-
-    async function preferredName(user){
+    async function preferredName(u){
       try {
-        const snap = await getDoc(doc(db, "users", user.uid));
+        const snap = await getDoc(doc(db, "users", u.uid));
         if (snap.exists() && snap.data().username) return snap.data().username;
       } catch {}
-      const full = user?.displayName || user?.email || "User";
-      return full.split(" ")[0];
+      const fallback = u?.displayName || u?.email || "User";
+      return fallback.split(" ")[0];
     }
-
     function renderSignedOut(){
-      brand.textContent = "Guest";
-      login.style.display  = "";
-      logout.style.display = "none";
+      brandEl.textContent = "Guest";
+      setStatus("signed out");
+      show(loginBtn, true);
+      show(logoutBtn, false);
+      debugEl.textContent = "";
     }
-    async function renderSignedIn(user){
-      brand.textContent = await preferredName(user);
-      login.style.display  = "none";
-      logout.style.display = "";
+    async function renderSignedIn(u){
+      brandEl.textContent = await preferredName(u);
+      setStatus("signed in");
+      show(loginBtn, false);
+      show(logoutBtn, true);
+      debugEl.textContent = JSON.stringify({
+        uid: u.uid,
+        displayName: u.displayName,
+        email: u.email
+      }, null, 2);
     }
 
-    // --- Wire buttons ---
-    login.addEventListener("click", async () => {
+    // 6) button wiring
+    loginBtn.addEventListener("click", async () => {
       try {
-        login.disabled = true;
+        loginBtn.disabled = true;
         const res = await signInWithPopup(auth, provider);
         await upsertUser(res.user);
-        await renderSignedIn(res.user); // instant UI swap
+        await renderSignedIn(res.user);
       } catch (e) {
         alert(e.message);
+        console.error(e);
       } finally {
-        login.disabled = false;
+        loginBtn.disabled = false;
       }
     });
 
-    logout.addEventListener("click", async () => {
+    logoutBtn.addEventListener("click", async () => {
       try {
-        logout.disabled = true;
+        logoutBtn.disabled = true;
         await signOut(auth);
         renderSignedOut();
       } catch (e) {
         alert(e.message);
+        console.error(e);
       } finally {
-        logout.disabled = false;
+        logoutBtn.disabled = false;
       }
     });
 
-    // --- Persistence + auth watcher in a safe IIFE (no top-level await issues) ---
+    // 7) persistence + one auth observer
     (async () => {
       try {
+        // prefer durable local; fall back to session if blocked
         await setPersistence(auth, browserLocalPersistence);
       } catch {
-        // Fallback if local persistence is blocked (e.g., strict Safari settings)
         await setPersistence(auth, browserSessionPersistence);
       }
       onAuthStateChanged(auth, async (user) => {
@@ -271,37 +156,6 @@
         else renderSignedOut();
       });
     })();
-  </script>
-
-  <!-- Your existing app code -->
-  <script type="module" src="assets/app.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Simple client-side search for lesson cards
-    const input = document.getElementById('lesson-search');
-    const cards = Array.from(document.querySelectorAll('#lesson-grid .card'));
-    function applyFilter() {
-      const q = (input.value || '').trim().toLowerCase();
-      let visible = [];
-      cards.forEach(card => {
-        const hay = (card.dataset.title + ' ' + (card.dataset.tags || '')).toLowerCase();
-        const show = !q || hay.includes(q);
-        card.classList.toggle('hidden', !show);
-        if (show) visible.push(card);
-      });
-      return visible;
-    }
-    input.addEventListener('input', applyFilter);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const vis = applyFilter();
-        if (vis.length === 1) {
-          const link = vis[0].querySelector('.foot a');
-          if (link) window.location.href = link.getAttribute('href');
-        }
-      }
-    });
   </script>
 </body>
 </html>
