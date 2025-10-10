@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/make-firebase-config.mjs"
+    "build": "node assets/make-firebase-config.mjs"
   }
 }
