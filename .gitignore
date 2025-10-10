@@ -1,6 +1,0 @@
-# Ignore local Firebase config
-assets/firebase-config.js
-
-# Common local environment files
-.env
-.env.*
