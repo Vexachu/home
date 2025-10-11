@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Why Code? — KidCoder (Interactive Slides)</title>
+  <title>Lesson 1: Intro to Turtle — KidCoder (Interactive Slides)</title>
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="../../assets/style.css" />
-  <!-- Skulpt for Python mini-demos -->
+  <!-- Skulpt for Python Turtle -->
   <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt.min.js"></script>
   <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
   <style>
@@ -15,15 +15,14 @@
       --card:#1e293b;        /* slide card */
       --ink:#e5e7eb;         /* text color */
       --muted:#94a3b8;       /* secondary text */
-      --accent:#60a5fa;      /* buttons + highlights */
       --border:rgba(255,255,255,.10);
     }
-    body{background:var(--bg); color:var(--ink);}
+    body{background:var(--bg); color:var(--ink);} 
 
     /* Header */
-    .header .nav{display:grid; grid-template-columns: 1fr auto 1fr; align-items:center}
+    .header .nav{display:grid; grid-template-columns:1fr auto 1fr; align-items:center}
     .header .brand{justify-self:start; display:flex; gap:8px; align-items:center}
-    .header nav{justify-self:end}
+    .header nav{justify-self=end}
 
     /* Slides */
     .slides{margin:20px 0}
@@ -39,15 +38,14 @@
     .editor{background:#0b1224; border:1px solid var(--border); border-radius:12px; padding:12px}
     .editor .row{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px}
     .editor .tag{font-size:.9rem; color:var(--muted)}
-    .editor textarea{width:100%; min-height:180px; background:#050913; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-    .console{background:#050913; color:#e5e7eb; border:1px solid var(--border); border-radius:10px; padding:10px; min-height:180px; white-space:pre-wrap}
-    .out-box{background:#050913; border:1px solid var(--border); border-radius:12px; min-height:220px; display:flex; align-items:center; justify-content:center; position:relative}
+    .editor textarea{width:100%; min-height:200px; background:#050913; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .console{background:#050913; color:#e5e7eb; border:1px solid var(--border); border-radius:10px; padding:10px; min-height:56px; white-space:pre-wrap}
+    .out-box{background:#050913; border:1px solid var(--border); border-radius:12px; min-height:260px; display:flex; align-items:center; justify-content:center; position:relative}
+    .out-box > div{width:100%}
     .hint{color:var(--muted); font-size:.95rem}
+    pre.code-box{background:#0b1224; border:1px solid var(--border); border-radius:12px; padding:12px; overflow:auto}
 
-    /* Tiny badge */
     .badge{display:inline-block; font-size:.75rem; padding:2px 8px; border-radius:999px; border:1px solid var(--border); color:var(--muted)}
-
-    /* Footer */
     .footer{border-top:1px solid var(--border)}
     @media (max-width: 860px){ .split{grid-template-columns: 1fr} }
   </style>
@@ -63,42 +61,51 @@
   <main class="container">
     <div class="slides" id="slides">
 
-      <!-- Slide 1: Title -->
+      <!-- Slide 1: Title (keeps your original copy) -->
       <section class="slide active">
-        <h2>Why Code?</h2>
-        <p class="muted">Because coding lets you build tools, games, and solutions to real problems — starting with tiny experiments you can run right here.</p>
-        <ul class="muted">
-          <li>Automate boring tasks</li>
-          <li>Create websites, games, and apps</li>
-          <li>Understand and shape technology</li>
-        </ul>
+        <h2>Lesson 1: Intro to Turtle</h2>
+        <p>You can think of Python turtle like a little pet turtle you can move with code. Today we’ll move it forward!</p>
+        <p>Each turtle needs a name. For example, mine is <code>bob</code>.</p>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+bob.forward(50)</pre>
+        <p>This makes <code>bob</code> move forward 50 steps and leave a trail behind!</p>
         <div class="nav-btns">
           <span class="badge">1 / 4</span>
           <button class="button secondary" data-next>Next ➡</button>
         </div>
       </section>
 
-      <!-- Slide 2: What you can build -->
+      <!-- Slide 2: Practice: Move the Turtle (editor + canvas) -->
       <section class="slide">
-        <h2>What can I build?</h2>
-        <p class="muted">Pretty much anything — start small and combine ideas.</p>
+        <h2>Practice: Move the Turtle</h2>
+        <p>Let’s try moving your turtle forward 100 blocks. Remember: use <code>.forward()</code> and your turtle’s name.</p>
         <div class="split">
-          <div>
-            <ul>
-              <li><strong>Websites & Apps</strong>: school clubs, portfolios, tools</li>
-              <li><strong>Automation</strong>: rename files, parse data, send emails</li>
-              <li><strong>Data & AI</strong>: analyze text, simple ML demos</li>
-              <li><strong>Games</strong>: puzzles, physics toys, simulations</li>
-            </ul>
-            <p class="hint">Tip: Big projects are just many tiny scripts glued together.</p>
-          </div>
-          <div class="out-box">
-            <div>
-              <div style="font-size:42px; line-height:1">🧩</div>
-              <div class="hint" style="text-align:center">Ideas snap together like blocks</div>
+          <div class="editor" data-editor data-lang="py-turtle" data-target="py-canvas">
+            <div class="row">
+              <div class="tag">Code Here (Python)</div>
+              <div>
+                <button class="button secondary" data-run>Run</button>
+                <button class="button secondary" data-reset>Reset</button>
+              </div>
             </div>
+<textarea spellcheck="false">
+# In Python, anything after "#" is a comment and not part of the code
+import turtle
+
+bob = turtle.Turtle()
+# if you want, you can change bob's color!
+bob.color("white")
+bob.shape("turtle")
+
+# Write here:
+# bob.forward(100)
+</textarea>
+            <pre class="console" data-out></pre>
           </div>
+          <div class="out-box"><div id="py-canvas"></div></div>
         </div>
+        <p class="hint"><em>If you forgot how to do it, here you go: <code>bob.forward(100)</code> | Now let’s try one new thing… turning 👀</em></p>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
           <span class="badge">2 / 4</span>
@@ -106,36 +113,21 @@
         </div>
       </section>
 
-      <!-- Slide 3: Python mini demo (prints) -->
+      <!-- Slide 3: Turning the Turtle (your original copy) -->
       <section class="slide">
-        <h2>Try it: Python (print & loop)</h2>
-        <p class="muted">Change the code and hit <em>Run</em>. Output appears on the right.</p>
-        <div class="split">
-          <div class="editor" data-editor data-lang="py">
-            <div class="row">
-              <div class="tag">Python</div>
-              <div>
-                <button class="button secondary" data-run>Run</button>
-                <button class="button secondary" data-reset>Reset</button>
-              </div>
-            </div>
-<textarea spellcheck="false">
-# Edit me!
-name = "KidCoder"
-for i in range(1, 6):
-    print(f"{i}. Hello, {name}! 🚀")
-
-# Try:
-# - change name
-# - change range(1, 6) to (1, 4)
-# - add: print("You just ran Python in your browser!")
-</textarea>
-            <pre class="console" data-out></pre>
-          </div>
-          <div class="out-box">
-            <div class="hint">Output will show here when you run ▶</div>
-          </div>
-        </div>
+        <h2>Turning the Turtle</h2>
+        <p>You can use <code>.left()</code> or <code>.right()</code> to make your turtle turn!</p>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+bob.forward(80)
+bob.left(90)
+# the code above makes bob turn left by 90 degrees
+bob.forward(80)
+bob.left(90)
+bob.forward(80)
+bob.left(90)
+bob.forward(80)</pre>
+        <p>This makes a square! Try changing the distance or angles to make new shapes.</p>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
           <span class="badge">3 / 4</span>
@@ -143,104 +135,85 @@ for i in range(1, 6):
         </div>
       </section>
 
-      <!-- Slide 4: Tiny animation lab (JS in sandboxed iframe) -->
+      <!-- Slide 4: Practice — Make a square (editor + canvas) -->
       <section class="slide">
-        <h2>Try it: Tiny Animation (JavaScript)</h2>
-        <p class="muted">Tweak the numbers and press <em>Run</em>. Your animation reloads in a sandbox.</p>
+        <h2>Practice: Make a Square</h2>
+        <p class="muted">Use <code>forward()</code> and <code>left(90)</code> four times. Then try a triangle with <code>left(120)</code>.</p>
         <div class="split">
-          <div class="editor" data-editor data-lang="js">
+          <div class="editor" data-editor data-lang="py-turtle" data-target="py-canvas-2">
             <div class="row">
-              <div class="tag">JavaScript</div>
+              <div class="tag">Code Here (Python)</div>
               <div>
                 <button class="button secondary" data-run>Run</button>
                 <button class="button secondary" data-reset>Reset</button>
               </div>
             </div>
 <textarea spellcheck="false">
-// Edit the parameters ↓ and press Run
-const SPEED = 2.2;      // try 1.0 .. 6.0
-const SIZE  = 36;       // try 10 .. 80
-const SHAPE = "circle"; // "circle" or "square"
+import turtle
+bob = turtle.Turtle()
+bob.color("white")
+bob.shape("turtle")
 
-// Nothing below needs to change (but feel free!)
-const html = `<!doctype html><meta charset=\"utf-8\">\n<style>\n  html,body{height:100%;margin:0;background:#050913}\n  canvas{display:block;margin:auto;border:1px solid rgba(255,255,255,.12);border-radius:12px}\n</style>\n<canvas id=\"c\" width=500 height=260></canvas>\n<script>\n  const c=document.getElementById('c');\n  const ctx=c.getContext('2d');\n  let x=50, y=50, vx=${SPEED}, vy=${SPEED}*0.8;\n  const size=${SIZE};\n  const shape='${SHAPE}';\n  function step(){\n    ctx.clearRect(0,0,c.width,c.height);\n    ctx.fillStyle='#e5e7eb';\n    if(shape==='circle'){ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();}\n    else{ctx.fillRect(x-size,y-size,size*2,size*2);}\n    x+=vx; y+=vy;\n    if(x<size||x>c.width-size) vx*=-1;\n    if(y<size||y>c.height-size) vy*=-1;\n    requestAnimationFrame(step);\n  }\n  step();\n<\/script>`;
-
-// The host page will render this into the sandbox iframe
-html;
+# TODO: draw a square
+# hint:
+# for _ in range(4):
+#     bob.forward(80)
+#     bob.left(90)
 </textarea>
             <pre class="console" data-out></pre>
           </div>
-          <div class="out-box" id="anim-host">
-            <iframe id="anim-frame" sandbox="allow-scripts" referrerpolicy="no-referrer" style="width:100%;height:220px;border:0;border-radius:12px;background:#050913"></iframe>
-          </div>
+          <div class="out-box"><div id="py-canvas-2"></div></div>
         </div>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
           <span class="badge">4 / 4</span>
-          <span></span>
+          <span>✔ Done!</span>
         </div>
       </section>
 
     </div>
   </main>
 
-  <footer class="footer">© <span id="year"></span> KidCoder • Why Code</footer>
+  <footer class="footer">© <span id="year"></span> KidCoder • Lesson 1</footer>
 
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Slide navigation (matches your old slide UX)
+    // Slide navigation (same pattern as your old deck)
     const slides=[...document.querySelectorAll('.slide')];
     let idx=0;
     function show(i){slides.forEach((s,n)=>s.classList.toggle('active', n===i)); idx=i;}
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{ if(idx<slides.length-1) show(idx+1) }));
     document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{ if(idx>0) show(idx-1) }));
 
-    // ---- Python runner via Skulpt ----
-    function outfFactory(outEl){ return function(text){ outEl.textContent += text; } }
-    function builtinRead(x){ if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) { throw "File not found: '" + x + "'"; } return Sk.builtinFiles["files"][x]; }
-
-    function runPython(textarea, outPre){
+    // Skulpt helpers for Turtle
+    function builtinRead(x){ if (!Sk.builtinFiles || !Sk.builtinFiles["files"][x]) throw "File not found: '"+x+"'"; return Sk.builtinFiles["files"][x]; }
+    function runPyTurtle(textarea, outPre, targetId){
+      // reset output and canvas
       outPre.textContent = '';
-      Sk.pre = outPre; // not strictly needed for print, but OK
-      Sk.configure({ output: outfFactory(outPre), read: builtinRead });
+      const host = document.getElementById(targetId);
+      if(host){ host.innerHTML = ''; } // clear previous canvas
+      Sk.configure({ output: t=> outPre.textContent += t, read: builtinRead });
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = targetId;
       const code = textarea.value;
-      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = null; // we are not using turtle here
       Sk.misceval.asyncToPromise(()=> Sk.importMainWithBody('<stdin>', false, code, true))
-        .catch(err => { outPre.textContent += '\n' + err.toString(); });
+        .catch(err => { outPre.textContent += "\n" + err.toString(); });
     }
 
-    // ---- JS animation sandbox runner ----
-    function runJavaScriptToIframe(textarea, iframe, outPre){
-      outPre.textContent='';
-      try{
-        const result = Function(textarea.value)(); // returns HTML string
-        iframe.srcdoc = result;
-      }catch(e){
-        outPre.textContent = e.toString();
-      }
-    }
-
-    // Attach to all editors
+    // Attach to editors
     document.querySelectorAll('[data-editor]').forEach(ed=>{
       const lang = ed.dataset.lang;
+      const target = ed.dataset.target; // turtle canvas id
       const ta = ed.querySelector('textarea');
       const out = ed.querySelector('[data-out]');
       const runBtn = ed.querySelector('[data-run]');
       const resetBtn = ed.querySelector('[data-reset]');
       const initial = ta.value;
 
-      if(lang==='py'){
-        runBtn.addEventListener('click',()=> runPython(ta, out));
-        resetBtn.addEventListener('click',()=>{ ta.value = initial; out.textContent=''; });
-      }
-      if(lang==='js'){
-        const iframe = document.getElementById('anim-frame');
-        // first render
-        runJavaScriptToIframe(ta, iframe, out);
-        runBtn.addEventListener('click',()=> runJavaScriptToIframe(ta, iframe, out));
-        resetBtn.addEventListener('click',()=>{ ta.value = initial; out.textContent=''; runJavaScriptToIframe(ta, iframe, out); });
+      if(lang==='py-turtle'){
+        runBtn.addEventListener('click',()=> runPyTurtle(ta, out, target));
+        resetBtn.addEventListener('click',()=>{ ta.value = initial; out.textContent=''; const host=document.getElementById(target); if(host) host.innerHTML=''; });
       }
     });
   </script>
