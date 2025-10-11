@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typing Skills — KidCoder</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div> KidCoder</div>
+      <nav><a class="button secondary" href="../../index.html">Home</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <section class="card" style="padding:18px;">
+      <h2>Typing Skills</h2>
+      <p>Practice accuracy and speed. Type the sentence below:</p>
+      <p id="prompt" class="muted">The quick brown fox jumps over the lazy dog.</p>
+      <textarea id="typingBox" rows="4" style="width:100%; border-radius:10px; padding:10px;"></textarea>
+      <p id="result" class="muted"></p>
+    </section>
+  </main>
+  <footer class="footer">© KidCoder • Typing</footer>
+
+  <script>
+    const promptEl = document.getElementById('prompt');
+    const typingBox = document.getElementById('typingBox');
+    const result = document.getElementById('result');
+    typingBox.addEventListener('input', () => {
+      const target = promptEl.textContent;
+      const typed = typingBox.value;
+      const len = Math.max(typed.length, 1);
+      let correct = 0;
+      for (let i = 0; i < Math.min(typed.length, target.length); i++) {
+        if (typed[i] === target[i]) correct++;
+      }
+      const accuracy = Math.round((correct / len) * 100);
+      result.textContent = `Accuracy: ${accuracy}%`;
+    });
+  </script>
+</body>
+</html>

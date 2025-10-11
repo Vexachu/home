@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KidCoder — Learn by Doing</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div> KidCoder <span class="badge">beta</span></div>
+      <div class="search" style="flex:1; display:flex; gap:8px; justify-content:flex-end;">
+        <a id="loginLink" class="button secondary" href="login.html">Login</a>
+        <button id="logoutBtn" class="button secondary" style="display:none;">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="kicker">Welcome</div>
+      <h1 class="h1">Learn by Doing</h1>
+      <p class="sub">Hands-on lessons with Python basics, typing drills, and friendly intros.</p>
+      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+        <a class="button" href="lessons/intro/">Open Intro Lesson</a>
+        <a class="button" href="lessons/typing/">Open Typing Lesson</a>
+        <a class="button" href="lessons/why-code/">Open “Why Code?”</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Lessons</h2>
+      <div class="grid">
+        <article class="lesson">
+          <h3>Intro to Coding</h3>
+          <p class="muted">Move & draw concepts, variables, and logic.</p>
+          <a class="button secondary" href="lessons/intro/">Open Lesson</a>
+        </article>
+        <article class="lesson">
+          <h3>Typing Skills</h3>
+          <p class="muted">Practice accuracy and speed.</p>
+          <a class="button secondary" href="lessons/typing/">Open Lesson</a>
+        </article>
+        <article class="lesson">
+          <h3>Why Code?</h3>
+          <p class="muted">Explore what coding can do for you.</p>
+          <a class="button secondary" href="lessons/why-code/">Open Lesson</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Auth State</h2>
+      <p id="authState" class="muted">Checking login status…</p>
+    </section>
+  </main>
+
+  <footer class="footer">© KidCoder</footer>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
