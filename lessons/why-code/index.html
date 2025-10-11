@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lesson 1: Intro to Turtle — KidCoder (Interactive Slides)</title>
+  <title>Lesson 1: Intro to Turtle — LogicPoint (Interactive Slides)</title>
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="../../assets/style.css" />
   <!-- Skulpt for Python Turtle -->
@@ -53,7 +53,7 @@
 <body>
   <header class="header">
     <div class="nav container">
-      <div class="brand"><div class="logo"></div> KidCoder</div>
+      <div class="brand"><div class="logo"></div> <span id="userName">LogicPoint</span></div>
       <nav><a class="button secondary" href="../../index.html">Home</a></nav>
     </div>
   </header>
@@ -71,12 +71,29 @@ bob = turtle.Turtle()
 bob.forward(50)</pre>
         <p>This makes <code>bob</code> move forward 50 steps and leave a trail behind!</p>
         <div class="nav-btns">
-          <span class="badge">1 / 4</span>
+          <span class="badge">1 / 10</span>
           <button class="button secondary" data-next>Next ➡</button>
         </div>
       </section>
 
-      <!-- Slide 2: Practice: Move the Turtle (editor + canvas) -->
+      <!-- Slide 2: Setup: import + make a turtle -->
+      <section class="slide">
+        <h2>Setup: <code>import turtle</code> + make a turtle</h2>
+        <p class="muted">Two lines you’ll use in almost every turtle program:</p>
+        <pre class="code-box">import turtle                # brings the turtle library into your code
+bob = turtle.Turtle()        # creates a turtle object named bob</pre>
+        <ul class="muted">
+          <li><code>import</code> loads extra features (a library).</li>
+          <li><code>turtle.Turtle()</code> constructs a new turtle you can control.</li>
+        </ul>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">2 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 3: Practice: Move the Turtle (editor + canvas) -->
       <section class="slide">
         <h2>Practice: Move the Turtle</h2>
         <p>Let’s try moving your turtle forward 100 blocks. Remember: use <code>.forward()</code> and your turtle’s name.</p>
@@ -105,15 +122,15 @@ bob.shape("turtle")
           </div>
           <div class="out-box"><div id="py-canvas"></div></div>
         </div>
-        <p class="hint"><em>If you forgot how to do it, here you go: <code>bob.forward(100)</code> | Now let’s try one new thing… turning 👀</em></p>
+        <p class="hint"><em>If you forgot how to do it, here you go: <code>bob.forward(100)</code></em></p>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
-          <span class="badge">2 / 4</span>
+          <span class="badge">3 / 10</span>
           <button class="button secondary" data-next>Next ➡</button>
         </div>
       </section>
 
-      <!-- Slide 3: Turning the Turtle (your original copy) -->
+      <!-- Slide 4: Turning the Turtle (your original copy) -->
       <section class="slide">
         <h2>Turning the Turtle</h2>
         <p>You can use <code>.left()</code> or <code>.right()</code> to make your turtle turn!</p>
@@ -130,43 +147,164 @@ bob.forward(80)</pre>
         <p>This makes a square! Try changing the distance or angles to make new shapes.</p>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
-          <span class="badge">3 / 4</span>
+          <span class="badge">4 / 10</span>
           <button class="button secondary" data-next>Next ➡</button>
         </div>
       </section>
 
-      <!-- Slide 4: Practice — Make a square (editor + canvas) -->
+      <!-- Slide 5: Pen up / Pen down -->
       <section class="slide">
-        <h2>Practice: Make a Square</h2>
-        <p class="muted">Use <code>forward()</code> and <code>left(90)</code> four times. Then try a triangle with <code>left(120)</code>.</p>
+        <h2>Pen Up & Pen Down</h2>
+        <p class="muted"><code>penup()</code> lifts the pen (no drawing). <code>pendown()</code> puts it back down (draws again).</p>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+
+bob.forward(60)     # draw
+bob.penup()         # stop drawing
+bob.forward(60)     # move without a line
+bob.pendown()       # draw again
+bob.left(90)
+bob.forward(60)</pre>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">5 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 6: Color -->
+      <section class="slide">
+        <h2>Color</h2>
+        <p class="muted">Use <code>color()</code> with a name (<code>"white"</code>, <code>"red"</code>) or a hex like <code>"#00ff88"</code>.</p>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+
+bob.color("white")     # line + fill color
+# you can also do: bob.color("yellow") or bob.color("#4ade80")</pre>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">6 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 7: Pen size / thickness -->
+      <section class="slide">
+        <h2>Line Thickness</h2>
+        <p class="muted">Change the line width with <code>pensize()</code> (sometimes called <code>width()</code>).</p>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+
+bob.pensize(5)      # thicker line
+bob.forward(80)
+
+# Optional: change only the turtle icon size (not the line)
+# bob.shapesize(1.5)</pre>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">7 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 8: BIG slide — Regular shapes -->
+      <section class="slide">
+        <h2>Regular Shapes: the trick</h2>
+        <p class="muted">For an <em>n</em>-sided regular polygon, turn by <code>360 / n</code> each step and repeat <code>n</code> times.</p>
         <div class="split">
-          <div class="editor" data-editor data-lang="py-turtle" data-target="py-canvas-2">
+          <div>
+            <pre class="code-box">import turtle
+bob = turtle.Turtle()
+
+n = 6          # try 3 (triangle), 4 (square), 5, 6, 8...
+step = 70
+angle = 360 / n
+for _ in range(n):
+    bob.forward(step)
+    bob.left(angle)</pre>
+            <p class="hint">Idea map: triangle → 120°, square → 90°, pentagon → 72°, hexagon → 60°.</p>
+          </div>
+          <div class="out-box"><div id="poly-canvas"></div></div>
+        </div>
+        <div class="editor" data-editor data-lang="py-turtle" data-target="poly-canvas">
+          <div class="row">
+            <div class="tag">Try changing <code>n</code> and <code>step</code>, then Run</div>
+            <div>
+              <button class="button secondary" data-run>Run</button>
+              <button class="button secondary" data-reset>Reset</button>
+            </div>
+          </div>
+<textarea spellcheck="false">import turtle
+bob = turtle.Turtle()
+
+n = 4          # number of sides
+step = 80      # side length
+angle = 360 / n
+for _ in range(n):
+    bob.forward(step)
+    bob.left(angle)
+</textarea>
+          <pre class="console" data-out></pre>
+        </div>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">8 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 9: Special shapes -->
+      <section class="slide">
+        <h2>Some shapes need special commands</h2>
+        <ul class="muted">
+          <li><code>bob.circle(50)</code> draws a circle of radius 50.</li>
+          <li><code>bob.dot(12)</code> draws a filled dot.</li>
+          <li><code>bob.stamp()</code> stamps the turtle shape.</li>
+        </ul>
+        <pre class="code-box">import turtle
+bob = turtle.Turtle()
+
+bob.circle(60)
+bob.penup(); bob.forward(80); bob.pendown()
+bob.dot(12)
+bob.stamp()</pre>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">9 / 10</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <!-- Slide 10: Free play sandbox -->
+      <section class="slide">
+        <h2>Sandbox: Free Play</h2>
+        <p class="muted">Experiment! Try colors, pensize, penup/pendown, and shapes.</p>
+        <div class="split">
+          <div class="editor" data-editor data-lang="py-turtle" data-target="free-canvas">
             <div class="row">
-              <div class="tag">Code Here (Python)</div>
+              <div class="tag">Python</div>
               <div>
                 <button class="button secondary" data-run>Run</button>
                 <button class="button secondary" data-reset>Reset</button>
               </div>
             </div>
-<textarea spellcheck="false">
-import turtle
+<textarea spellcheck="false">import turtle
 bob = turtle.Turtle()
 bob.color("white")
-bob.shape("turtle")
+bob.pensize(3)
 
-# TODO: draw a square
-# hint:
-# for _ in range(4):
-#     bob.forward(80)
-#     bob.left(90)
+# Try anything below:
+# for _ in range(36):
+#     bob.forward(8)
+#     bob.left(10)
 </textarea>
             <pre class="console" data-out></pre>
           </div>
-          <div class="out-box"><div id="py-canvas-2"></div></div>
+          <div class="out-box"><div id="free-canvas"></div></div>
         </div>
         <div class="nav-btns">
           <button class="button secondary" data-prev>⬅ Back</button>
-          <span class="badge">4 / 4</span>
+          <span class="badge">10 / 10</span>
           <span>✔ Done!</span>
         </div>
       </section>
@@ -174,7 +312,7 @@ bob.shape("turtle")
     </div>
   </main>
 
-  <footer class="footer">© <span id="year"></span> KidCoder • Lesson 1</footer>
+  <footer class="footer">© <span id="year"></span> LogicPoint • Lesson 1</footer>
 
   <script>
     // Year
@@ -216,7 +354,38 @@ bob.shape("turtle")
         resetBtn.addEventListener('click',()=>{ ta.value = initial; out.textContent=''; const host=document.getElementById(target); if(host) host.innerHTML=''; });
       }
     });
-  </script>
-  <script type="module" src="../../assets/app.js"></script>
+  // --- Personalize header brand from user email/local storage ---
+(function personalize(){
+  function cap(s){return s? s.charAt(0).toUpperCase()+s.slice(1) : s}
+  function firstFromEmail(email){
+    if(!email || typeof email!=="string") return null;
+    const local = email.split("@")[0];
+    const token = (local.match(/[a-zA-Z]+/g) || [local])[0];
+    return cap(token.toLowerCase());
+  }
+  const nameSpan = document.getElementById('userName');
+  const candidates = [
+    localStorage.getItem('kc.firstName'),
+    firstFromEmail(localStorage.getItem('kc.email')),
+    firstFromEmail(localStorage.getItem('userEmail')),
+    firstFromEmail(window.USER_EMAIL),
+    firstFromEmail(document.body?.dataset?.userEmail)
+  ].filter(Boolean);
+  if(nameSpan && candidates.length){ nameSpan.textContent = candidates[0]; }
+
+  // Simple self-test (test cases) for first-name extraction
+  const tests = [
+    {e:'alice.b@school.edu', want:'Alice'},
+    {e:'BOB_smith99@gmail.com', want:'Bob'},
+    {e:'charlie@domain', want:'Charlie'}
+  ];
+  console.log('[NameExtract tests]');
+  tests.forEach(t=>{
+    const got = firstFromEmail(t.e);
+    console.log(t.e, '=>', got, got===t.want? 'OK':'FAIL expected '+t.want);
+  });
+})();
+</script>
+<script type="module" src="../../assets/app.js"></script>
 </body>
 </html>
