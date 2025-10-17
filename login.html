@@ -54,11 +54,11 @@
 
   <script type="module">
     import { firebaseConfig } from "./assets/firebase-config.js";
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup,
-             signInWithEmailAndPassword, createUserWithEmailAndPassword,
-             onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+           signInWithEmailAndPassword, createUserWithEmailAndPassword,
+           onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -154,6 +154,41 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         window.location.href = "index.html";
+      }
+    });
+
+    const signupName = document.getElementById('signupName');
+
+    async function upsertUserProfile(user) {
+      try {
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          displayName: user.displayName || "",
+          email: user.email || "",
+          photoURL: user.photoURL || "",
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        console.warn("upsertUserProfile skipped:", err.message);
+      }
+    }
+  
+    signupFormElem.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      signupBtn.disabled = true;
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value);
+        // set the displayName so app.js can greet by first name
+        if (signupName && signupName.value.trim()) {
+          await updateProfile(cred.user, { displayName: signupName.value.trim() });
+        }
+        await upsertUserProfile(cred.user);
+        window.location.href = "index.html";
+      } catch (err) {
+        alert(err.message);
+        console.error(err);
+      } finally {
+        signupBtn.disabled = false;
       }
     });
   </script>
