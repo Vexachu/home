@@ -4,60 +4,41 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LogicPoint — Learn by Doing</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/style.css" />
   <style>
-    /* Page-specific tweaks (keeps your palette) */
-    .topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
-    .brand { display:flex; align-items:center; gap:10px; }
-    .brand-dot { width:10px; height:10px; background:#22d3ee; border-radius:50%; }
-    .nav-actions { display:flex; gap:10px; }
-    .nav-actions .button { padding:8px 12px; font-weight:600; }
-    .hero h1 { margin: 10px 0 6px; font-weight: 800; }
-    .hero p  { margin: 0 0 16px; color: var(--muted); }
-
-    /* Smaller lesson cards grid */
-    .lesson-grid { 
-      display:grid; 
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); 
-      gap:12px; 
-    }
-    .lesson-card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      display:flex; flex-direction:column; gap:10px;
-    }
-    .lesson-card .row{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
-    .lesson-card .pill{
-      border:1px solid var(--border);
-      padding:2px 8px; border-radius:999px; font-size:.75rem; color:var(--muted);
-    }
-    .lesson-card .pill.ok{ color:#22c55e; border-color:rgba(34,197,94,.35); }
-    .lesson-card .progress{ color:var(--muted); font-size:.85rem; }
-    .lesson-card.locked{ opacity:.65; }
-    .lesson-card.locked .button{ cursor:not-allowed; }
+    /* minimal layout only; uses your existing palette vars */
+    .hero h1{margin:10px 0 6px;font-weight:800;}
+    .hero p{margin:0 0 16px;color:var(--muted);}
+    .lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+    .lesson-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;}
+    .lesson-card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+    .lesson-card .pill{border:1px solid var(--border);padding:2px 8px;border-radius:999px;font-size:.75rem;color:var(--muted);}
+    .lesson-card .pill.ok{color:#22c55e;border-color:rgba(34,197,94,.35);}
+    .lesson-card .progress{color:var(--muted);font-size:.85rem;}
+    .lesson-card.locked{opacity:.65;}
+    .lesson-card.locked .button{cursor:not-allowed;}
   </style>
 </head>
 <body>
+  <!-- Header that matches your CSS -->
   <header class="header">
-    <div class="container topbar">
+    <div class="nav container">
       <div class="brand">
-        <span class="brand-dot"></span>
+        <div class="logo"></div>
         <span id="greeting">Hi!</span>
       </div>
-      <div class="nav-actions">
+      <nav style="display:flex;gap:10px;align-items:center">
         <a class="button secondary" href="contact.html">Contact</a>
         <a id="loginLink" class="button secondary" href="login.html">Login</a>
-        <button id="logoutBtn" class="button secondary" style="display:none;">Logout</button>
-      </div>
+        <button id="logoutBtn" class="button secondary" style="display:none">Logout</button>
+      </nav>
     </div>
   </header>
 
   <main class="container">
     <section class="hero">
-      <h1>Learn by Doing</h1>
-      <p>Hands-on lessons with Python/turtle, typing skills, and friendly intros.</p>
+      <h1 class="h1">Learn by Doing</h1>
+      <p class="sub">Hands-on lessons with Python/turtle, typing skills, and friendly intros.</p>
     </section>
 
     <section class="card">
@@ -71,10 +52,9 @@
             <h3>Intro to Coding</h3>
             <span class="pill ok">LIVE</span>
           </div>
-          <p class="muted">Move & draw with Python/turtle. Variables, loops, and logic.</p>
+          <p class="muted">Move &amp; draw with Python/turtle. Variables, loops, and logic.</p>
           <div class="row">
-            <!-- TODO: replace '#' with the real URL when that file is deployed -->
-            <a class="button" href="#">Open lesson</a>
+            <a class="button" href="lessons/intro/index.html">Open lesson</a>
             <span class="progress">5–7 minutes</span>
           </div>
         </article>
@@ -87,7 +67,7 @@
           </div>
           <p class="muted">Practice accuracy and speed with coding-friendly word sets.</p>
           <div class="row">
-            <a class="button" href="#">Open lesson</a>
+            <a class="button" href="lessons/typing/index.html">Open lesson</a>
             <span class="progress">0% completion</span>
           </div>
         </article>
@@ -100,46 +80,28 @@
           </div>
           <p class="muted">Explore what coding can do for you with quick, interactive demos.</p>
           <div class="row">
-            <a class="button" href="#">Open lesson</a>
+            <a class="button" href="lessons/why-code/index.html">Open lesson</a>
             <span class="progress">7–10 min</span>
           </div>
         </article>
 
-        <!-- LOCKED cards -->
+        <!-- LOCKED -->
         <article class="lesson-card locked" aria-disabled="true">
-          <div class="row">
-            <h3>Loops</h3>
-            <span class="pill">LOCKED</span>
-          </div>
+          <div class="row"><h3>Loops</h3><span class="pill">LOCKED</span></div>
           <p class="muted">Repeat actions cleanly with <code>for</code> and <code>while</code>.</p>
-          <div class="row">
-            <button class="button" disabled>Coming soon</button>
-            <span class="progress">—</span>
-          </div>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
         </article>
 
         <article class="lesson-card locked" aria-disabled="true">
-          <div class="row">
-            <h3>Variables</h3>
-            <span class="pill">LOCKED</span>
-          </div>
+          <div class="row"><h3>Variables</h3><span class="pill">LOCKED</span></div>
           <p class="muted">Store and reuse values the smart way.</p>
-          <div class="row">
-            <button class="button" disabled>Coming soon</button>
-            <span class="progress">—</span>
-          </div>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
         </article>
 
         <article class="lesson-card locked" aria-disabled="true">
-          <div class="row">
-            <h3>Turtle Art</h3>
-            <span class="pill">LOCKED</span>
-          </div>
+          <div class="row"><h3>Turtle Art</h3><span class="pill">LOCKED</span></div>
           <p class="muted">Patterns, polygons, and creative designs.</p>
-          <div class="row">
-            <button class="button" disabled>Coming soon</button>
-            <span class="progress">—</span>
-          </div>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
         </article>
       </div>
     </section>
@@ -152,10 +114,7 @@
 
   <footer class="footer">© <span id="year"></span> LogicPoint</footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-  <!-- use your existing root-level app.js -->
-  <script type="module" src="app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script type="module" src="assets/app.js"></script>
 </body>
 </html>
