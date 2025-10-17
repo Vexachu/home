@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us — LogicPoint</title>
+
+  <!-- Roboto (matches your Squarespace font) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Your main site stylesheet -->
+  <link rel="stylesheet" href="assets/site.css" />
+
+  <style>
+    /* Contact page scoped styles (safe to keep inline or move to site.css) */
+    :root{
+      /* pulled from your SS variables */
+      --safeDarkAccent-hsl: 218.18,37.29%,23.14%;  /* deep blue */
+      --lightAccent-hsl:    60,7.46%,86.86%;       /* pale cream */
+      --black-hsl:          0,0%,0%;
+      --white-hsl:          0,0%,100%;
+    }
+    .contact-wrap{
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: hsl(var(--lightAccent-hsl));
+      padding: 4rem 1rem;
+      font-family: Roboto, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      color: hsl(var(--black-hsl));
+    }
+    .contact-card{
+      width: 100%;
+      max-width: 980px;
+      background: hsl(var(--white-hsl));
+      border: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.12);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px hsl(0 0% 0% / 0.06);
+      overflow: clip;
+    }
+    .contact-grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .contact-hero{
+      padding: 2.25rem 2rem;
+      background: linear-gradient(180deg,
+        hsl(var(--lightAccent-hsl)) 0%,
+        hsl(var(--white-hsl)) 100%);
+      border-bottom: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.12);
+    }
+    .contact-hero h1{
+      font-weight: 500;
+      font-size: clamp(1.8rem, 3vw + 1rem, 2.5rem);
+      line-height: 1.15;
+      margin: 0 0 .5rem 0;
+    }
+    .contact-hero p{
+      margin: 0;
+      font-size: 1rem;
+      opacity: .9;
+      letter-spacing: -.02em;
+    }
+
+    .contact-body{
+      padding: 2rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+    @media (min-width: 900px){
+      .contact-grid{ grid-template-columns: 1.05fr 1fr; }
+      .contact-body{ grid-template-columns: 1fr; padding: 2.25rem; }
+      .contact-hero{ padding: 2.75rem 2.5rem; }
+    }
+
+    .panel{
+      padding: 1.25rem;
+      border: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.12);
+      border-radius: 12px;
+      background: hsl(var(--white-hsl));
+    }
+    .panel h2{
+      margin: 0 0 .75rem;
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+    .meta{
+      display: grid;
+      gap: .4rem;
+      font-size: .975rem;
+    }
+    .meta a{
+      color: hsl(var(--safeDarkAccent-hsl));
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    form{
+      display: grid;
+      gap: 1rem;
+    }
+    .field{
+      display: grid;
+      gap: .45rem;
+    }
+    label{
+      font-size: .95rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea{
+      appearance: none;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid hsl(var(--black-hsl) / 0.2);
+      padding: .85rem 1rem;
+      font: inherit;
+      line-height: 1.35;
+      background: hsl(var(--white-hsl));
+    }
+    textarea{ min-height: 160px; resize: vertical; }
+
+    .hint{ font-size: .85rem; opacity: .8; }
+
+    .actions{
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: .25rem;
+    }
+    button[type="submit"]{
+      border: none;
+      border-radius: 999px;
+      padding: .9rem 1.4rem;
+      font-weight: 500;
+      letter-spacing: .02em;
+      color: hsl(var(--white-hsl));
+      background: hsl(var(--safeDarkAccent-hsl));
+      cursor: pointer;
+    }
+    button[type="submit"]:focus-visible{
+      outline: 2px solid hsl(var(--safeDarkAccent-hsl));
+      outline-offset: 3px;
+    }
+    .ghost{
+      background: transparent;
+      color: hsl(var(--safeDarkAccent-hsl));
+      border: 1px solid hsl(var(--safeDarkAccent-hsl) / .35);
+    }
+
+    .status{
+      font-size: .95rem;
+      margin-left: .25rem;
+    }
+    .ok{ color: hsl(150 40% 32%); }
+    .err{ color: hsl(10 70% 45%); }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="contact-wrap">
+    <article class="contact-card" role="region" aria-labelledby="contact-title">
+      <div class="contact-grid">
+        <!-- Left: intro -->
+        <section class="contact-hero">
+          <h1 id="contact-title">Contact Us</h1>
+          <p>Questions, collabs, or speaking invites — we’d love to hear from you.</p>
+        </section>
+
+        <!-- Right: meta (stacked under on mobile) -->
+        <section class="contact-body">
+          <div class="panel" aria-labelledby="reach-us">
+            <h2 id="reach-us">Reach us directly</h2>
+            <div class="meta">
+              <div><strong>Email:</strong> <a href="mailto:hello@logicpoint.dev">hello@logicpoint.dev</a></div>
+              <div><strong>GitHub:</strong> <a href="https://github.com/your-username" rel="noopener">github.com/your-username</a></div>
+              <div><strong>Response time:</strong> usually 1–2 days</div>
+            </div>
+          </div>
+
+          <div class="panel" aria-labelledby="send-message">
+            <h2 id="send-message">Send a message</h2>
+
+            <!-- Formspree example endpoint:
+                 Replace "your_form_id" after you create one at https://formspree.io
+                 (or swap with any static-friendly service) -->
+            <form id="contact-form" action="https://formspree.io/f/your_form_id" method="POST" novalidate>
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="_replyto" type="email" inputmode="email" autocomplete="email" required aria-required="true" />
+              </div>
+
+              <div class="field">
+                <label for="subject">Subject <span class="hint">(optional)</span></label>
+                <input id="subject" name="subject" type="text" />
+              </div>
+
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required aria-required="true"></textarea>
+              </div>
+
+              <div class="field" style="display:flex; gap:.6rem; align-items:flex-start;">
+                <input id="consent" name="consent" type="checkbox" required aria-required="true" style="margin-top:.25rem; width:1.1rem; height:1.1rem;">
+                <label for="consent">I agree to be contacted about my inquiry.</label>
+              </div>
+
+              <div class="actions">
+                <button type="submit">Send message</button>
+                <a class="ghost" href="mailto:hello@logicpoint.dev?subject=Hello%20LogicPoint">or email instead</a>
+                <span id="form-status" class="status" role="status" aria-live="polite"></span>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    // Progressive enhancement: fetch submit with status text
+    (function () {
+      const form = document.getElementById('contact-form');
+      const statusEl = document.getElementById('form-status');
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        // If action is Formspree and browser supports fetch, do AJAX
+        if (!window.fetch) return; // fallback to normal POST
+        e.preventDefault();
+
+        statusEl.textContent = 'Sending…';
+        try {
+          const fd = new FormData(form);
+          const res = await fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' }});
+          if (res.ok) {
+            form.reset();
+            statusEl.textContent = 'Thanks! We’ll be in touch soon.';
+            statusEl.className = 'status ok';
+          } else {
+            statusEl.textContent = 'Something went wrong. Please try again or email us.';
+            statusEl.className = 'status err';
+          }
+        } catch (err) {
+          statusEl.textContent = 'Network error. Please try again later.';
+          statusEl.className = 'status err';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
