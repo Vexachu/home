@@ -2,84 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KidCoder — Learn by Doing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LogicPoint — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    /* small additions so you don't have to hunt in style.css right now */
-    .button.lg { padding: 10px 18px; font-size: 0.95rem; }
-    .lesson-card { position: relative; }
-    .progress {
-      height: 8px; border-radius: 999px;
-      background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 10px;
-    }
-    .progress > .bar {
-      height: 100%; width: 30%; /* set via inline style or JS later */
-      background: linear-gradient(90deg, #22c55e, #60a5fa);
-    }
-    .chip {
-      display: inline-block; font-size: .8rem; opacity: .8;
-      padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15);
-    }
+    /* tiny tweak so the hero matches your mock */
+    .hero .h1 { font-weight: 700; }
   </style>
 </head>
 <body>
+  <!-- Top bar -->
   <header class="header">
     <div class="nav container">
-      <div class="brand">
-        <div class="logo"></div>
-        <p id="greeting"></p>
-        <span class="badge"></span>
-      </div>
-
-      <div class="search" style="flex:1; display:flex; gap:8px; justify-content:flex-end;">
-        <a id="contactLink" class="button secondary" href="contact.html">Contact</a>
+      <div class="brand"><div class="logo"></div> <span id="greeting">Hi!</span></div>
+      <nav style="display:flex; gap:8px; align-items:center">
+        <a class="button secondary" href="contact.html">Contact</a>
         <a id="loginLink" class="button secondary" href="login.html">Login</a>
-        <button id="logoutBtn" class="button lg" style="display:none;">Logout</button>
-      </div>
+        <button id="logoutBtn" class="button secondary" style="display:none">Logout</button>
+      </nav>
     </div>
   </header>
 
   <main class="container">
+    <!-- Hero -->
     <section class="hero">
-      <div class="kicker">Welcome</div>
-      <h1 class="h1">Learn by Doing</h1>
-      <p class="sub">Hands-on lessons for all: Python basics, typing drills, and friendly intros.</p>
-      <!-- hero quick-links removed per your mock -->
+      <div class="h1">Learn by Doing</div>
+      <p class="sub">Hands-on lessons with Python/turtle, typing skills, and friendly intros.</p>
     </section>
 
+    <!-- Quick buttons row (like your old three buttons) -->
+    <section class="card" style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a class="button" href="LESSONS/intro-turtle/index.html">Open Intro Lesson</a>
+      <a class="button" href="typing/index.html">Open Typing Lesson</a>
+      <a class="button" href="why-code/index.html">Open “Why Code?”</a>
+    </section>
+
+    <!-- Mini feature boxes (the green-ish chips from your screenshot) -->
+    <section class="grid feature-grid" aria-label="Why LogicPoint">
+      <article class="feature-card">
+        <div class="kicker">INTERACTIVE</div>
+        <h3>Type, run, iterate</h3>
+        <p>Short, hands-on tasks. Try, see output, and improve instantly. No installs.</p>
+      </article>
+      <article class="feature-card">
+        <div class="kicker">KID-FRIENDLY</div>
+        <h3>Beginner-first design</h3>
+        <p>Clear steps, playful examples, gentle difficulty ramps to keep learners engaged.</p>
+      </article>
+      <article class="feature-card">
+        <div class="kicker">PROGRESS</div>
+        <h3>Track growth</h3>
+        <p>Profiles, streaks, and badges that celebrate consistency and real understanding.</p>
+      </article>
+    </section>
+
+    <!-- Lessons grid (smaller cards) -->
     <section class="card">
-      <h2>Lessons</h2>
+      <h2 style="margin:0 0 8px 0;">Lessons</h2>
+      <p class="muted" style="margin-top:0;">Pick a lesson to start learning. Locked items are coming soon.</p>
 
-      <div class="grid">
-        <!-- Keep only the Why Code? card -->
-        <article class="lesson lesson-card">
-          <!-- progress -->
-          <div class="progress" aria-label="Lesson progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30">
-            <div class="bar" style="width:30%"></div>
+      <div class="grid lesson-grid">
+        <!-- LIVE: Intro to Coding (Turtle) -->
+        <article class="lesson-card">
+          <div class="row">
+            <h3>Intro to Coding</h3>
+            <span class="pill ok">LIVE</span>
           </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-            <div>
-              <h3>Why Code?</h3>
-              <p class="muted">Explore what coding can do for you.</p>
-            </div>
-            <span class="chip">7–10 min</span>
+          <p class="muted">Move & draw with Python/turtle. Variables, loops, and logic.</p>
+          <div class="row">
+            <a class="button" href="LESSONS/intro-turtle/index.html">Open lesson</a>
+            <span class="progress">0% completion</span>
           </div>
+        </article>
 
-          <a class="button secondary" href="lessons/why-code/">Open Lesson</a>
+        <!-- LIVE: Typing Skills -->
+        <article class="lesson-card">
+          <div class="row">
+            <h3>Typing Skills</h3>
+            <span class="pill ok">LIVE</span>
+          </div>
+          <p class="muted">Practice accuracy and speed with coding-friendly word sets.</p>
+          <div class="row">
+            <a class="button" href="typing/index.html">Open lesson</a>
+            <span class="progress">0% completion</span>
+          </div>
+        </article>
+
+        <!-- LIVE: Why Code? -->
+        <article class="lesson-card">
+          <div class="row">
+            <h3>Why Code?</h3>
+            <span class="pill ok">LIVE</span>
+          </div>
+          <p class="muted">Explore what coding can do for you with quick, interactive demos.</p>
+          <div class="row">
+            <a class="button" href="why-code/index.html">Open lesson</a>
+            <span class="progress">7–10 min</span>
+          </div>
+        </article>
+
+        <!-- COMING SOON: Loops -->
+        <article class="lesson-card locked" aria-disabled="true">
+          <div class="row">
+            <h3>Loops</h3>
+            <span class="pill">LOCKED</span>
+          </div>
+          <p class="muted">Repeat actions cleanly with <code>for</code> and <code>while</code>.</p>
+          <div class="row">
+            <button class="button" disabled>Coming soon</button>
+            <span class="progress">—</span>
+          </div>
+        </article>
+
+        <!-- COMING SOON: Variables -->
+        <article class="lesson-card locked" aria-disabled="true">
+          <div class="row">
+            <h3>Variables</h3>
+            <span class="pill">LOCKED</span>
+          </div>
+          <p class="muted">Store and reuse values the smart way.</p>
+          <div class="row">
+            <button class="button" disabled>Coming soon</button>
+            <span class="progress">—</span>
+          </div>
+        </article>
+
+        <!-- COMING SOON: Turtle Art -->
+        <article class="lesson-card locked" aria-disabled="true">
+          <div class="row">
+            <h3>Turtle Art</h3>
+            <span class="pill">LOCKED</span>
+          </div>
+          <p class="muted">Patterns, polygons, and creative designs.</p>
+          <div class="row">
+            <button class="button" disabled>Coming soon</button>
+            <span class="progress">—</span>
+          </div>
         </article>
       </div>
     </section>
 
+    <!-- Auth state (like your mock) -->
     <section class="card">
-      <h2>Auth State</h2>
-      <p id="authState" class="muted">Checking login status…</p>
+      <h3>Auth State</h3>
+      <p id="authState" class="muted">Checking…</p>
     </section>
   </main>
 
-  <footer class="footer">© Vexachu</footer>
+  <footer class="footer">© <span id="year"></span> LogicPoint</footer>
 
+  <!-- shared app (keeps greeting/login/logout in sync) -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
   <script type="module" src="assets/app.js"></script>
 </body>
 </html>
