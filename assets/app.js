@@ -8,16 +8,27 @@ const auth = getAuth(app);
 const loginLink = document.getElementById('loginLink');
 const logoutBtn = document.getElementById('logoutBtn');
 const authState = document.getElementById('authState');
+const greetingElem = document.getElementById('greeting'); // optional element for friendly welcome
+
+function firstNameOf(user) {
+  const dn = (user.displayName || "").trim();
+  if (dn) return dn.split(/\s+/)[0];
+  const email = user.email || "";
+  return email.includes("@") ? email.split("@")[0] : "KidCoder";
+}
 
 function setAuthUI(user){
   if (user) {
     if (loginLink) loginLink.style.display = 'none';
     if (logoutBtn) logoutBtn.style.display = '';
+    const firstName = firstNameOf(user);
     if (authState) authState.textContent = `Logged in as ${user.email || 'user'}`;
+    if (greetingElem) greetingElem.textContent = `Hi, ${firstName}!`;
   } else {
     if (loginLink) loginLink.style.display = '';
     if (logoutBtn) logoutBtn.style.display = 'none';
     if (authState) authState.textContent = 'You are logged out.';
+    if (greetingElem) greetingElem.textContent = '';
   }
 }
 
