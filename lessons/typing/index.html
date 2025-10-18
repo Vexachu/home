@@ -373,5 +373,24 @@
     // set initial focus so user can just start typing:
     setTimeout(() => hiddenInput.focus(), 0);
   </script>
+    <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { firebaseConfig } from "../../assets/firebase-config.js";  // ✅ two levels up
+  
+    // Reuse the same Firebase app if it already exists
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  
+    const el = document.getElementById("greeting");
+    onAuthStateChanged(auth, (user) => {
+      if (!el) return;
+      if (!user) { el.textContent = ""; return; }
+  
+      const base = user.displayName || (user.email || "").split("@")[0] || "there";
+      const first = base.trim().split(/\s+/)[0];
+      el.textContent = `Hi ${first}!`;
+    });
+  </script>
 </body>
 </html>
