@@ -74,3 +74,11 @@ input[type="search"]{background:#0f172a;color:var(--text);border:1px solid var(-
   color: var(--ink);
   border: 1px solid color-mix(in oklab, var(--ink) 20%, transparent);
 }
+/* --- Hide scrollbars site-wide (still allows scrolling) --- */
+html, body {
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+body::-webkit-scrollbar {      /* Chrome/Safari */
+  display: none;
+}
