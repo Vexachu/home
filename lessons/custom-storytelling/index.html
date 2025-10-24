@@ -1,84 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Custom Storytelling (Coming Soon) — KidCoder Scratch</title>
   <link rel="stylesheet" href="../../assets/style.css" />
-  <style>:root{
-  --bg: #f7ede2;
-  --panel: #f6bd60;
-  --text: #1f2937;
-  --muted: #374151;
-  --border: rgba(0,0,0,.08);
-  --brand: #f28482;
-}
-/* cardy look with bigger tap targets for kids */
-body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
-.header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
-.brand{display:flex;gap:10px;align-items:center;font-weight:800}
-.logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
-.container{max-width:980px;margin:0 auto;padding:0 16px}
-.button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#f5cac3;text-decoration:none;color:#111}
-.button.secondary{background:transparent}
-.card{background:white;border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 8px 20px rgba(0,0,0,.05)}
-.h1{font-size:1.8rem;margin:10px 0}
-.slides{margin:20px 0}
-.slide{display:none;background:white;border:1px solid var(--border);border-radius:18px;padding:20px}
-.slide.active{display:block}
-.nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
-.badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:#374151;background:#fff}
-.muted{color:#4b5563}
-pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto}
-.tip{background:#ecfeff;border:1px solid #06b6d4;border-radius:12px;padding:10px}
-figure{margin:0}
-figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
-.lock{opacity:.7}
-footer.footer{text-align:center;color:#4b5563;padding:24px 0;border-top:1px solid var(--border);margin-top:24px}
-</style>
+  <style>
+    :root{--bg:#0b0f17;--panel:#0f1624;--text:#e5e7eb;--muted:#9ca3af;--border:rgba(255,255,255,.08);--brand:#22d3ee}
+    html[data-theme="light"]{--bg:#f7f2ef;--panel:#faedcb;--text:#2b2b2b;--muted:#555;--border:rgba(0,0,0,.08);--brand:#c6def1}
+    html[data-theme="light"] .button{background:var(--brand);color:#1f2937;border:1px solid rgba(0,0,0,.1)}
+    html[data-theme="light"] .button.secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+    body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+    .container{max-width:980px;margin:0 auto;padding:0 16px}
+    .button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0}
+    .muted{color:var(--muted)} .h1{font-size:1.8rem;margin:10px 0}
+    figure{margin:0} figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+  </style>
 </head>
 <body>
   <header class="header">
     <div class="nav container">
-      <div class="brand"><div class="logo"></div> <span>KidCoder · Scratch</span></div>
-      <nav><a class="button secondary" href="../../index.html">Home</a></nav>
+      <div class="brand"><div class="logo"></div><span>KidCoder · Scratch</span></div>
+      <nav style="display:flex;gap:10px;align-items:center">
+        <button id="themeToggle" class="button secondary">🌙 Dark</button>
+        <a class="button secondary" href="../../index.html">Home</a>
+      </nav>
     </div>
   </header>
 
   <main class="container">
-    
-    <div class="card lock">
+    <div class="card">
       <h2 class="h1">🔒 Custom Storytelling Game</h2>
-      <p>Choose your own adventure with scenes, choices, and variables for score or endings.</p>
+      <p>Create your own interactive story with scenes, choices, and variables for endings.</p>
       <ul>
-        <li>Goal</li>
-        <li>Core blocks</li>
-        <li>Stretch ideas</li>
+        <li>Goal</li><li>Core blocks</li><li>Stretch ideas</li>
       </ul>
       <figure class="card">
         <img src="placeholder-diagram.png" alt="Design sketch placeholder" />
         <figcaption class="muted">Add your design sketch or a screenshot once ready.</figcaption>
       </figure>
-      <div class="tip">Drop short demo videos here when ready (YouTube iframe).</div>
+      <p class="muted">“Scratch is a project of the Scratch Foundation. It is available for free at scratch.mit.edu.”</p>
     </div>
-    
   </main>
 
-  <footer class="footer">© <span id="year"></span> KidCoder</footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script>
-// Simple slide navigation (touch-friendly)
-const slides=[...document.querySelectorAll('.slide')];
-let idx=0;
-function show(i){slides.forEach((s,n)=>s.classList.toggle('active', n===i)); idx=i;}
-document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{ if(idx<slides.length-1) show(idx+1) }));
-document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{ if(idx>0) show(idx-1) }));
-// Badge updater
-function updateBadges(){
-  const total=slides.length;
-  document.querySelectorAll('.badge[data-step]').forEach((el,i)=> el.textContent = (i+1) + ' / ' + total);
-}
-updateBadges();
-</script>
+    const root=document.documentElement, toggle=document.getElementById('themeToggle');
+    const saved=localStorage.getItem('lp_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    function setBtn(){toggle.textContent=root.getAttribute('data-theme')==='light'?'☀️ Light':'🌙 Dark'} setBtn();
+    toggle.addEventListener('click',()=>{const now=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',now);localStorage.setItem('lp_theme',now);setBtn();});
+  </script>
 </body>
 </html>
