@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What is Scratch? — KidCoder Scratch</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>:root{
+  --bg: #f7ede2;
+  --panel: #f6bd60;
+  --text: #1f2937;
+  --muted: #374151;
+  --border: rgba(0,0,0,.08);
+  --brand: #f28482;
+}
+/* cardy look with bigger tap targets for kids */
+body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+.header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800}
+.logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+.container{max-width:980px;margin:0 auto;padding:0 16px}
+.button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#f5cac3;text-decoration:none;color:#111}
+.button.secondary{background:transparent}
+.card{background:white;border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+.h1{font-size:1.8rem;margin:10px 0}
+.slides{margin:20px 0}
+.slide{display:none;background:white;border:1px solid var(--border);border-radius:18px;padding:20px}
+.slide.active{display:block}
+.nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+.badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:#374151;background:#fff}
+.muted{color:#4b5563}
+pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto}
+.tip{background:#ecfeff;border:1px solid #06b6d4;border-radius:12px;padding:10px}
+figure{margin:0}
+figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+.lock{opacity:.7}
+footer.footer{text-align:center;color:#4b5563;padding:24px 0;border-top:1px solid var(--border);margin-top:24px}
+</style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div> <span>KidCoder · Scratch</span></div>
+      <nav><a class="button secondary" href="../../index.html">Home</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+<div class="slides" id="slides">
+  <section class="slide active">
+    <h2 class="h1">What is Scratch?</h2>
+    <p>Scratch is a free tool that lets you make stories, games, and animations by snapping code blocks together—like LEGO.</p>
+    <ul class="card">
+      <li><strong>Stage:</strong> where your game plays.</li>
+      <li><strong>Sprites:</strong> characters and things you control.</li>
+      <li><strong>Blocks:</strong> colorful code pieces that make things happen.</li>
+    </ul>
+    <figure class="card">
+      <img src="screenshot-interface.png" alt="Scratch interface (placeholder). Replace with your screenshot." />
+      <figcaption class="muted">Replace with your own screenshot of the Scratch editor.</figcaption>
+    </figure>
+    <div class="nav-btns">
+      <span class="badge" data-step></span>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2 class="h1">How coding works in Scratch</h2>
+    <p>Drag blocks into the script area. Snap them together to run actions in order.</p>
+    <pre class="code-box">When green flag clicked
+→ go to x:0 y:0
+→ say "Hello!" for 2 seconds
+→ move 10 steps</pre>
+    <figure class="card">
+      <img src="screenshot-blocks.png" alt="Example blocks (placeholder). Replace with your screenshot." />
+      <figcaption class="muted">Add a close‑up screenshot of your starter code.</figcaption>
+    </figure>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <span class="badge" data-step></span>
+      <button class="button secondary" data-next>Next ➡</button>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2 class="h1">See it in action (video)</h2>
+    <p class="muted">Paste a YouTube link of your demo. Kids can watch, then try it!</p>
+    <div class="card" style="aspect-ratio:16/9">
+      <iframe
+        width="100%" height="100%"
+        src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+        title="Scratch demo video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <p class="muted">Credit line to include on pages with screenshots: “Scratch is a project of the Scratch Foundation, available for free at scratch.mit.edu.”</p>
+    <div class="nav-btns">
+      <button class="button secondary" data-prev>⬅ Back</button>
+      <span class="badge" data-step></span>
+      <span class="badge">✔ Done!</span>
+    </div>
+  </section>
+</div>
+
+  </main>
+
+  <footer class="footer">© <span id="year"></span> KidCoder</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+// Simple slide navigation (touch-friendly)
+const slides=[...document.querySelectorAll('.slide')];
+let idx=0;
+function show(i){slides.forEach((s,n)=>s.classList.toggle('active', n===i)); idx=i;}
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{ if(idx<slides.length-1) show(idx+1) }));
+document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{ if(idx>0) show(idx-1) }));
+// Badge updater
+function updateBadges(){
+  const total=slides.length;
+  document.querySelectorAll('.badge[data-step]').forEach((el,i)=> el.textContent = (i+1) + ' / ' + total);
+}
+updateBadges();
+</script>
+</body>
+</html>
