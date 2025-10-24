@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us — LogicPoint</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" />
+
+  <style>
+    :root {
+      --safeDarkAccent-hsl: 218.18,37.29%,23.14%;
+      --lightAccent-hsl: 60,7.46%,86.86%;
+      --black-hsl: 0,0%,0%;
+      --white-hsl: 0,0%,100%;
+    }
+
+    body {
+      font-family: Roboto, system-ui, sans-serif;
+      background: hsl(var(--lightAccent-hsl));
+      color: hsl(var(--black-hsl));
+      margin: 0;
+      padding: 0;
+    }
+
+    .contact-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .contact-card {
+      width: 100%;
+      max-width: 960px;
+      background: hsl(var(--white-hsl));
+      border-radius: 16px;
+      box-shadow: 0 10px 30px hsl(0 0% 0% / 0.06);
+      overflow: hidden;
+    }
+
+    .contact-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(180deg, hsl(var(--lightAccent-hsl)) 0%, hsl(var(--white-hsl)) 100%);
+      border-bottom: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.12);
+    }
+
+    .contact-header h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .back-btn {
+      background: hsl(var(--safeDarkAccent-hsl));
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      opacity: 0.9;
+    }
+
+    .contact-body {
+      display: grid;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .contact-body {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .panel {
+      border: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.15);
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: hsl(var(--white-hsl));
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .meta {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .meta a {
+      color: hsl(var(--safeDarkAccent-hsl));
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    label {
+      font-size: 0.95rem;
+      display: block;
+    }
+
+    input[type="email"],
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid hsl(var(--black-hsl) / 0.2);
+      padding: 0.8rem;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+
+    button[type="submit"] {
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.4rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: hsl(var(--white-hsl));
+      background: hsl(var(--safeDarkAccent-hsl));
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      opacity: 0.9;
+    }
+
+    .ghost {
+      background: transparent;
+      color: hsl(var(--safeDarkAccent-hsl));
+      border: 1px solid hsl(var(--safeDarkAccent-hsl) / 0.35);
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+
+    .status {
+      font-size: 0.95rem;
+    }
+
+    .ok {
+      color: hsl(150 40% 32%);
+    }
+
+    .err {
+      color: hsl(10 70% 45%);
+    }
+  </style>
+</head>
+<body>
+  <main class="contact-wrap">
+    <article class="contact-card" role="region" aria-labelledby="contact-title">
+      <div class="contact-header">
+        <h1 id="contact-title">Contact Us</h1>
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back to Home</button>
+      </div>
+
+      <div class="contact-body">
+        <!-- Left Panel -->
+        <section class="panel">
+          <h2>Reach us directly</h2>
+          <div class="meta">
+            <div><strong>Email:</strong> <a href="mailto:pitchblackvorona@gmail.com">pitchblackvorona@gmail.com</a></div>
+            <div><strong>Response time:</strong> usually 1–2 days</div>
+          </div>
+        </section>
+
+        <!-- Right Panel: Form -->
+        <section class="panel">
+          <h2>Send a message</h2>
+
+          <!-- Your active Formspree form -->
+          <form id="contact-form" action="https://formspree.io/f/mzzjojjl" method="POST">
+            <label>
+              Your email:
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Your message:
+              <textarea name="message" required></textarea>
+            </label>
+            <div class="actions">
+              <button type="submit">Send message</button>
+              <a class="ghost" href="mailto:pitchblackvorona@gmail.com?subject=Hello%20LogicPoint">or email instead</a>
+              <span id="form-status" class="status" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    // AJAX form handler for nicer feedback
+    const form = document.getElementById('contact-form');
+    const statusEl = document.getElementById('form-status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Sending…';
+      try {
+        const data = new FormData(form);
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          statusEl.textContent = 'Thanks! Your message has been sent.';
+          statusEl.className = 'status ok';
+        } else {
+          statusEl.textContent = 'Something went wrong. Please try again or email us directly.';
+          statusEl.className = 'status err';
+        }
+      } catch {
+        statusEl.textContent = 'Network error. Please try again later.';
+        statusEl.className = 'status err';
+      }
+    });
+  </script>
+</body>
+</html>

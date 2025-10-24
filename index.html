@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why Code? + Why Scratch — KidCoder</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .slides{margin:20px 0}
+    .slide{display:none; background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:24px}
+    .slide.active{display:block}
+    .nav-btns{display:flex; justify-content:space-between; gap:12px; margin-top:16px}
+    .badge{display:inline-block; font-size:.75rem; padding:2px 8px; border-radius:999px; border:1px solid var(--border); color:var(--muted)}
+    .grid2{display:grid; gap:16px}
+    @media (min-width: 860px){ .grid2{grid-template-columns:1fr 1fr} }
+    .locked{opacity:.6}
+    .lock{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px dashed var(--border); color:var(--muted)}
+    .pill{display:inline-block; padding:4px 10px; border-radius:999px; background:#fff3; border:1px solid var(--border)}
+    .cta{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--brand); color:white; text-decoration:none}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div> KidCoder</div>
+      <nav style="display:flex; gap:10px">
+        <a class="button secondary" href="login.html">Log in</a>
+        <a class="button secondary" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="slides" id="slides">
+      <section class="slide active">
+        <h2>Why learn to code?</h2>
+        <p>Coding is like giving instructions to a super-helpful robot. You can make stories, games, music, and art—then share them with friends.</p>
+        <ul>
+          <li><strong>Create</strong>: Design your own characters and worlds.</li>
+          <li><strong>Think</strong>: Practice problem solving and logic.</li>
+          <li><strong>Share</strong>: Show your projects to family, friends, or your class.</li>
+        </ul>
+        <div class="nav-btns">
+          <span class="badge">1 / 5</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>What we’ll use first: <span class="pill">Scratch</span></h2>
+        <p><em>Scratch</em> is a free, friendly tool where you snap blocks together to build code. It’s perfect for beginners and powerful enough for advanced games.</p>
+        <ul>
+          <li>No typing errors—just colorful blocks.</li>
+          <li>Instant results—press the green flag to run!</li>
+          <li>Safe community—share and remix projects.</li>
+        </ul>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">2 / 5</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>Why Scratch helps you learn</h2>
+        <ul>
+          <li><strong>Visual logic</strong>: See loops, events, and variables as puzzle pieces.</li>
+          <li><strong>Creativity first</strong>: Make games and stories while learning core concepts.</li>
+          <li><strong>Transferable skills</strong>: The ideas map to Python/JavaScript later.</li>
+        </ul>
+        <p class="muted">We’ll later show how Scratch blocks translate into text code (“real code”) so older learners can level up.</p>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">3 / 5</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>Course Map</h2>
+        <div class="grid2">
+          <div class="card">
+            <h3><a href="what-is-scratch.html">Lesson 1: What is Scratch?</a></h3>
+            <p>Tour of the editor: Stage, Sprites, Costumes, Sounds, and Blocks. Make your first animation.</p>
+          </div>
+          <div class="card locked">
+            <h3>🔒 Tower Defense Game</h3>
+            <p class="muted">Pathfinding, waves, upgrades, balanced difficulty. (Coming soon)</p>
+          </div>
+          <div class="card locked">
+            <h3>🔒 Custom Storytelling Game</h3>
+            <p class="muted">Scenes, dialogue, choices, variables for inventory. (Coming soon)</p>
+          </div>
+          <div class="card locked">
+            <h3>🔒 Arcade Shooter</h3>
+            <p class="muted">Move a paddle/ship, shoot, avoid enemy bullets, score & lives. (Coming soon)</p>
+          </div>
+        </div>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">4 / 5</span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2>How we’ll show steps</h2>
+        <p>Each lesson includes:</p>
+        <ul>
+          <li>Step-by-step slides.</li>
+          <li>Screenshot panels of the Scratch blocks you should see.</li>
+          <li>Optional video clip of the game running (YouTube embed).</li>
+        </ul>
+        <p><a class="cta" href="what-is-scratch.html">Start Lesson 1</a></p>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge">5 / 5</span>
+          <span>✔ Ready!</span>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> KidCoder • Unofficial Scratch tutorials</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const slides=[...document.querySelectorAll('.slide')]; let idx=0;
+    function show(i){slides.forEach((s,n)=>s.classList.toggle('active', n===i)); idx=i;}
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{ if(idx<slides.length-1) show(idx+1) }));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{ if(idx>0) show(idx-1) }));
+  </script>
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
