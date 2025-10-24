@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>What is Scratch? — KidCoder Scratch</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+<style>.slides{margin:18px 0}</style></head><body>
+<header class="header"><div class="nav container"><div class="brand"><div class="logo"></div> KidCoder Scratch</div><nav><a class="button secondary" href="../index.html">Home</a></nav></div></header>
+<main class="container"><div class="slides" id="slides">
+<section class="slide active">
+  <h2>Meet Scratch</h2>
+  <p>Scratch is a free tool for making stories, animations, and games with blocks.</p>
+  <ul class="muted"><li><strong>Sprites</strong> are characters and objects.</li><li><strong>Backdrops</strong> are the background.</li><li><strong>Blocks</strong> are your code.</li><li>Click the green flag to run.</li></ul>
+  <div class="nav-btns"><span class="badge">1 / 5</span><button class="button secondary" data-next>Next ></button></div>
+</section>
+<section class="slide">
+  <h2>Make a Sprite Move</h2>
+  <p>Add the Scratch Cat and use Events + Motion blocks.</p>
+  <figure class="example"><img src="../assets/examples/move-cat.png" alt="Move blocks placeholder"/><figcaption>Replace with your screenshot.</figcaption></figure>
+  <div class="nav-btns"><button class="button secondary" data-prev>< Back</button><span class="badge">2 / 5</span><button class="button secondary" data-next>Next ></button></div>
+</section>
+<section class="slide">
+  <h2>Say Hello</h2>
+  <p>Use a Looks block to make your sprite talk.</p>
+  <figure class="example"><img src="../assets/examples/say-hello.png" alt="Say blocks placeholder"/><figcaption>Replace with your screenshot.</figcaption></figure>
+  <div class="nav-btns"><button class="button secondary" data-prev>< Back</button><span class="badge">3 / 5</span><button class="button secondary" data-next>Next ></button></div>
+</section>
+<section class="slide">
+  <h2>Try It: Bounce</h2>
+  <p>Make the sprite move and bounce off edges.</p>
+  <figure class="example"><img src="../assets/examples/bounce.png" alt="Bounce blocks placeholder"/><figcaption>Practice conditions and motion.</figcaption></figure>
+  <div class="yt" data-yt="dQw4w9WgXcQ"></div>
+  <div class="nav-btns"><button class="button secondary" data-prev>< Back</button><span class="badge">4 / 5</span><button class="button secondary" data-next>Next ></button></div>
+</section>
+<section class="slide">
+  <h2>Next Up</h2>
+  <p>Build your first mini-game next.</p>
+  <div class="nav-btns"><button class="button secondary" data-prev>< Back</button><span class="badge">5 / 5</span><a class="button primary" href="tower-defense.html">Tower Defense (Coming Soon)</a></div>
+</section>
+</div></main>
+<footer class="footer">© <span id="year"></span> KidCoder — Lesson</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();
+const slides=[...document.querySelectorAll('.slide')];let idx=0;function show(i){slides.forEach((s,n)=>s.classList.toggle('active',n===i));idx=i};show(0);
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+function hydrateYT(){document.querySelectorAll('.yt[data-yt]').forEach(el=>{const id=el.getAttribute('data-yt');const iframe=document.createElement('iframe');iframe.width='560';iframe.height='315';iframe.src='https://www.youtube.com/embed/'+encodeURIComponent(id);iframe.title='YouTube video player';iframe.frameBorder='0';iframe.allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';iframe.allowFullscreen=true;el.textContent='';el.appendChild(iframe);});}hydrateYT();</script>
+</body></html>
