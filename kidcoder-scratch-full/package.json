@@ -1,8 +1,0 @@
-{
-  "name": "kidcoder",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "node assets/make-firebase-config.mjs"
-  }
-}
