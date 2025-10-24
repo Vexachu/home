@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LogicPoint — Learn by Doing</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* small, page-only layout */
+    .hero h1{margin:10px 0 6px;font-weight:800;}
+    .hero p{margin:0 0 16px;color:var(--muted);}
+    .lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+    .lesson-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;}
+    .lesson-card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+    .lesson-card .pill{border:1px solid var(--border);padding:2px 8px;border-radius:999px;font-size:.75rem;color:var(--muted);}
+    .lesson-card .pill.ok{color:#22c55e;border-color:rgba(34,197,94,.35);}
+    .lesson-card .progress{color:var(--muted);font-size:.85rem;}
+    .lesson-card.locked{opacity:.65;}
+    .lesson-card.locked .button{cursor:not-allowed;}
+
+    /* header: push actions to RIGHT + normalize button sizing */
+    .header .nav{display:flex;align-items:center;}
+    .header .nav .brand{display:flex;align-items:center;gap:10px;}
+    .header .nav .actions{margin-left:auto;display:flex;gap:10px;align-items:center;}
+    .header .nav .actions .button,
+    .header .nav .actions a.button{padding:8px 12px;font-size:.95rem;font-weight:600;}
+
+    /* search bar */
+    .searchbar{display:flex;gap:8px;align-items:center;margin:8px 0 14px;}
+    .searchbar input{
+      width:100%;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      color:var(--text);
+      outline:none;
+    }
+    .empty-hint{display:none;color:var(--muted);font-size:.95rem;margin-top:6px;}
+    .empty-hint.show{display:block;}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav container">
+      <div class="brand">
+        <div class="logo"></div>
+        <span id="greeting">Hiiiiiiiiii!</span>
+      </div>
+      <nav class="actions">
+        <a class="button secondary" href="contact.html">Contact</a>
+        <a id="loginLink" class="button secondary" href="login.html">Login</a>
+        <button id="logoutBtn" class="button secondary" style="display:none;">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="h1">Learn by Doing</h1>
+      <p class="sub">Hands-on lessons with Python/turtle, typing skills, and friendly intros.</p>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 8px 0;">Lessons</h2>
+      <p class="muted" style="margin-top:0;">Pick a lesson to start learning. Locked items are coming soon.</p>
+
+      <!-- Search bar -->
+      <div class="searchbar">
+        <input id="lessonSearch" type="search" placeholder="Search lessons by title…" aria-label="Search lessons by title" />
+      </div>
+
+      <div id="noMatches" class="empty-hint">No lessons match your search.</div>
+
+      <div id="lessonGrid" class="lesson-grid">
+        <!-- LIVE: Intro to Coding -->
+        <article class="lesson-card" data-title="intro to coding">
+          <div class="row">
+            <h3>Intro to Coding</h3>
+            <span class="pill ok">LIVE</span>
+          </div>
+          <p class="muted">Move &amp; draw with Python/turtle. Variables, loops, and logic.</p>
+          <div class="row">
+            <a class="button" href="lessons/intro/index.html">Open lesson</a>
+            <span class="progress">5–7 minutes</span>
+          </div>
+        </article>
+
+        <!-- LIVE: Typing Skills (completion removed) -->
+        <article class="lesson-card" data-title="typing skills">
+          <div class="row">
+            <h3>Typing Skills</h3>
+            <span class="pill ok">LIVE</span>
+          </div>
+          <p class="muted">Practice accuracy and speed with coding-friendly word sets.</p>
+          <div class="row">
+            <a class="button" href="lessons/typing/index.html">Open lesson</a>
+            <span class="progress"></span>
+          </div>
+        </article>
+
+        <!-- LIVE: Why Code? -->
+        <article class="lesson-card" data-title="why code?">
+          <div class="row">
+            <h3>Why Code?</h3>
+            <span class="pill ok">LIVE</span>
+          </div>
+          <p class="muted">Explore what coding can do for you with quick, interactive demos.</p>
+          <div class="row">
+            <a class="button" href="lessons/why-code/index.html">Open lesson</a>
+            <span class="progress">7–10 min</span>
+          </div>
+        </article>
+
+        <!-- LOCKED -->
+        <article class="lesson-card locked" aria-disabled="true" data-title="loops">
+          <div class="row"><h3>Loops</h3><span class="pill">LOCKED</span></div>
+          <p class="muted">Repeat actions cleanly with <code>for</code> and <code>while</code>.</p>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
+        </article>
+
+        <article class="lesson-card locked" aria-disabled="true" data-title="variables">
+          <div class="row"><h3>Variables</h3><span class="pill">LOCKED</span></div>
+          <p class="muted">Store and reuse values the smart way.</p>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
+        </article>
+
+        <article class="lesson-card locked" aria-disabled="true" data-title="turtle art">
+          <div class="row"><h3>Turtle Art</h3><span class="pill">LOCKED</span></div>
+          <p class="muted">Patterns, polygons, and creative designs.</p>
+          <div class="row"><button class="button" disabled>Coming soon</button><span class="progress">—</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Auth State</h3>
+      <p id="authState" class="muted">Checking…</p>
+    </section>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> LogicPoint</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Search filter by lesson TITLE only
+    const search = document.getElementById('lessonSearch');
+    const grid = document.getElementById('lessonGrid');
+    const cards = Array.from(grid.querySelectorAll('.lesson-card'));
+    const noMatches = document.getElementById('noMatches');
+
+    function applyFilter(q){
+      const query = q.trim().toLowerCase();
+      let visibleCount = 0;
+      cards.forEach(card=>{
+        const title = (card.dataset.title || card.querySelector('h3')?.textContent || '').toLowerCase();
+        const show = !query || title.includes(query);
+        card.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+      noMatches.classList.toggle('show', visibleCount === 0 && query.length>0);
+    }
+    search.addEventListener('input', e => applyFilter(e.target.value));
+    applyFilter('');
+  </script>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
