@@ -1,12 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LogicPoint — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    /* small, page-only layout */
+    /* THEME VARIABLES (override your global ones locally) */
+    :root {
+      /* Dark (your current site look) */
+      --bg: #0b0f17;
+      --panel: #0f1624;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255,255,255,.08);
+      --brand: #22d3ee;
+    }
+    /* Light theme (kid palette similar to the new lessons) */
+    html[data-theme="light"] {
+      --bg: #f7ede2;
+      --panel: #f6bd60;
+      --text: #1f2937;
+      --muted: #374151;
+      --border: rgba(0,0,0,.1);
+      --brand: #f28482;
+    }
+
+    /* page-only layout that respects the vars above */
+    body{background:var(--bg);color:var(--text);}
     .hero h1{margin:10px 0 6px;font-weight:800;}
     .hero p{margin:0 0 16px;color:var(--muted);}
     .lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
@@ -18,7 +39,7 @@
     .lesson-card.locked{opacity:.65;}
     .lesson-card.locked .button{cursor:not-allowed;}
 
-    /* header: push actions to RIGHT + normalize button sizing */
+    /* header layout + toggle button */
     .header .nav{display:flex;align-items:center;}
     .header .nav .brand{display:flex;align-items:center;gap:10px;}
     .header .nav .actions{margin-left:auto;display:flex;gap:10px;align-items:center;}
@@ -49,6 +70,7 @@
         <span id="greeting">Hiiiiiiiiii!</span>
       </div>
       <nav class="actions">
+        <button id="themeToggle" class="button secondary" aria-label="Toggle theme">🌙 Dark</button>
         <a class="button secondary" href="contact.html">Contact</a>
         <a id="loginLink" class="button secondary" href="login.html">Login</a>
         <button id="logoutBtn" class="button secondary" style="display:none;">Logout</button>
@@ -62,7 +84,7 @@
       <p class="sub">Kid-friendly Scratch lessons with screenshots, demos, and clear steps.</p>
     </section>
 
-    <section class="card">
+    <section class="card" style="background:var(--panel);border:1px solid var(--border);">
       <h2 style="margin:0 0 8px 0;">Lessons</h2>
       <p class="muted" style="margin-top:0;">Pick a lesson to start learning. Locked items are coming soon.</p>
 
@@ -141,7 +163,7 @@
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" style="background:var(--panel);border:1px solid var(--border);">
       <h3>Auth State</h3>
       <p id="authState" class="muted">Checking…</p>
     </section>
@@ -152,7 +174,26 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Search filter by lesson TITLE only
+    // --- Theme toggle (persists in localStorage) ---
+    const root = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('lp_theme');
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+    }
+    function updateToggleText(){
+      const mode = root.getAttribute('data-theme');
+      btn.textContent = mode === 'light' ? '☀️ Light' : '🌙 Dark';
+    }
+    updateToggleText();
+    btn.addEventListener('click', () => {
+      const now = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', now);
+      localStorage.setItem('lp_theme', now);
+      updateToggleText();
+    });
+
+    // --- Search filter by lesson TITLE only ---
     const search = document.getElementById('lessonSearch');
     const grid = document.getElementById('lessonGrid');
     const cards = Array.from(grid.querySelectorAll('.lesson-card'));
