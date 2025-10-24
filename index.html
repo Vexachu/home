@@ -6,9 +6,9 @@
   <title>LogicPoint — Learn by Doing</title>
   <link rel="stylesheet" href="assets/style.css" />
   <style>
-    /* THEME VARIABLES (override your global ones locally) */
+    /* THEME VARIABLES */
     :root {
-      /* Dark (your current site look) */
+      /* Dark (default) */
       --bg: #0b0f17;
       --panel: #0f1624;
       --text: #e5e7eb;
@@ -16,7 +16,8 @@
       --border: rgba(255,255,255,.08);
       --brand: #22d3ee;
     }
-    /* Light theme (kid palette similar to the new lessons) */
+
+    /* Light theme (soft pastel palette with readable buttons) */
     html[data-theme="light"] {
       --bg: #f7f2ef;
       --panel: #faedcb;
@@ -26,8 +27,26 @@
       --brand: #c6def1;
     }
 
+    /* light mode button overrides */
+    html[data-theme="light"] .button {
+      background: var(--brand);
+      color: #1f2937;
+      border: 1px solid rgba(0,0,0,.1);
+    }
 
-    /* page-only layout that respects the vars above */
+    html[data-theme="light"] .button.secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    html[data-theme="light"] .lesson-card.locked .button {
+      background: #ddd;
+      color: #666;
+      border-color: #ccc;
+    }
+
+    /* general layout */
     body{background:var(--bg);color:var(--text);}
     .hero h1{margin:10px 0 6px;font-weight:800;}
     .hero p{margin:0 0 16px;color:var(--muted);}
@@ -175,18 +194,18 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // --- Theme toggle (persists in localStorage) ---
+    // --- Theme toggle ---
     const root = document.documentElement;
     const btn = document.getElementById('themeToggle');
     const saved = localStorage.getItem('lp_theme');
-    if (saved === 'light' || saved === 'dark') {
-      root.setAttribute('data-theme', saved);
-    }
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
     function updateToggleText(){
       const mode = root.getAttribute('data-theme');
       btn.textContent = mode === 'light' ? '☀️ Light' : '🌙 Dark';
     }
     updateToggleText();
+
     btn.addEventListener('click', () => {
       const now = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', now);
@@ -194,7 +213,7 @@
       updateToggleText();
     });
 
-    // --- Search filter by lesson TITLE only ---
+    // --- Search filter ---
     const search = document.getElementById('lessonSearch');
     const grid = document.getElementById('lessonGrid');
     const cards = Array.from(grid.querySelectorAll('.lesson-card'));
