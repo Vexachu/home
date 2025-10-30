@@ -1,0 +1,209 @@
+<!-- =============================
+LESSON 3 — Costumes & Animations
+File: lessons/03-costumes-animations/index.html
+============================= -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Costumes & Animations — KidCoder Scratch</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    :root{--bg:#0b0f17;--panel:#0f1624;--text:#e5e7eb;--muted:#9ca3af;--border:rgba(255,255,255,.08);--brand:#22d3ee}
+    html[data-theme="light"]{--bg:#f7f2ef;--panel:#faedcb;--text:#2b2b2b;--muted:#555;--border:rgba(0,0,0,.08);--brand:#c6def1}
+    html[data-theme="light"] .button{background:var(--brand);color:#1f2937;border:1px solid rgba(0,0,0,.1)}
+    html[data-theme="light"] .button.secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+
+    body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    .header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+    .container{max-width:980px;margin:0 auto;padding:0 16px}
+    .button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+    .button.secondary{background:transparent}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0}
+    .h1{font-size:1.8rem;margin:10px 0}
+    .slides{margin:20px 0}
+    .slide{display:none;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+    .slide.active{display:block}
+    .nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+    .badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--muted)}
+    .muted{color:var(--muted)}
+    pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto;color:#111}
+    figure{margin:0} figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div><span>KidCoder · Scratch</span></div>
+      <nav style="display:flex;gap:10px;align-items:center">
+        <button id="themeToggle" class="button secondary">🌙 Dark</button>
+        <a class="button secondary" href="../../index.html">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="slides" id="slides">
+
+      <!-- 1 -->
+      <section class="slide active">
+        <h2 class="h1">Costumes & Animations</h2>
+        <p>Costumes are frames. Switching them creates animation.</p>
+        <ul class="card"><li>Use <em>next costume</em> or <em>switch costume to</em>.</li><li>Add short <em>wait</em> for smoother motion.</li><li>Pair with movement for walking.</li></ul>
+        <div class="nav-btns"><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 2 -->
+      <section class="slide">
+        <h2 class="h1">Walk Cycle (Two Frames)</h2>
+        <pre class="code-box">
+when right arrow key pressed
+  point in direction 90
+  switch costume to [walk1 v]
+  move 8 steps
+  wait 0.05 seconds
+  switch costume to [walk2 v]
+  move 8 steps
+        </pre>
+        <p class="muted">Alternate frames as you move.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 3 -->
+      <section class="slide">
+        <h2 class="h1">Idle Animation</h2>
+        <pre class="code-box">
+when green flag clicked
+  forever
+    switch costume to [idle1 v]
+    wait 0.2 seconds
+    switch costume to [idle2 v]
+    wait 0.2 seconds
+        </pre>
+        <p class="muted">Subtle breathing/blink while standing.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 4 -->
+      <section class="slide">
+        <h2 class="h1">Flip to Face Direction</h2>
+        <pre class="code-box">
+when right arrow key pressed
+  set rotation style [left-right v]
+  point in direction 90
+  move 8 steps
+when left arrow key pressed
+  set rotation style [left-right v]
+  point in direction -90
+  move 8 steps
+        </pre>
+        <p class="muted">Automatically mirrors sprite art.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 5 -->
+      <section class="slide">
+        <h2 class="h1">Attack / Action Animation</h2>
+        <pre class="code-box">
+when space key pressed
+  broadcast [attack v]
+
+when I receive [attack v]
+  repeat 3
+    next costume
+    wait 0.05 seconds
+  switch costume to [idle1 v]
+        </pre>
+        <p class="muted">Use a broadcast to keep action self-contained.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 6 -->
+      <section class="slide">
+        <h2 class="h1">Animated Teleport</h2>
+        <pre class="code-box">
+when this sprite clicked
+  repeat 4
+    change effect [ghost v] by 25
+    next costume
+    wait 0.05 seconds
+  go to x: (pick random -200 to 200) y: (pick random -150 to 150)
+  set effect [ghost v] to 0
+        </pre>
+        <p class="muted">Fade + jump for a clean teleport.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 7 -->
+      <section class="slide">
+        <h2 class="h1">Hit Flash</h2>
+        <pre class="code-box">
+when I receive [hit v]
+  repeat 5
+    set effect [color v] to 50
+    wait 0.03 seconds
+    clear graphic effects
+    wait 0.03 seconds
+        </pre>
+        <p class="muted">Quick feedback when damaged.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 8 -->
+      <section class="slide">
+        <h2 class="h1">Footstep Sync</h2>
+        <pre class="code-box">
+when right arrow key pressed
+  start sound [step v]
+  next costume
+  move 8 steps
+        </pre>
+        <p class="muted">Pair costume changes with audio cues.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 9 -->
+      <section class="slide">
+        <h2 class="h1">Backdrops for Scenes</h2>
+        <pre class="code-box">
+when I receive [next-scene v]
+  switch backdrop to [Level 2 v]
+  
+when backdrop switches to [Level 2 v]
+  broadcast [spawn-enemies v]
+        </pre>
+        <p class="muted">Hook scene change to spawns and logic.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 10 -->
+      <section class="slide">
+        <h2 class="h1">Challenge</h2>
+        <ul class="card"><li>Create a 4-frame run cycle.</li><li>Add landing frames after a jump.</li><li>Make a simple “victory” animation sequence.</li></ul>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><span class="badge">✔ Done!</span></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> KidCoder</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const slides=[...document.querySelectorAll('.slide')];let idx=0;
+    function show(i){slides.forEach((s,n)=>s.classList.toggle('active',n===i));idx=i;}
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+    (function(){const total=slides.length;document.querySelectorAll('.badge[data-step]').forEach((el,i)=>el.textContent=(i+1)+' / '+total)})();
+    const root=document.documentElement, toggle=document.getElementById('themeToggle');
+    const saved=localStorage.getItem('lp_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    function setBtn(){toggle.textContent=root.getAttribute('data-theme')==='light'?'☀️ Light':'🌙 Dark'}
+    setBtn();
+    toggle.addEventListener('click',()=>{const now=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',now);localStorage.setItem('lp_theme',now);setBtn();});
+  </script>
+</body>
+</html>
+
