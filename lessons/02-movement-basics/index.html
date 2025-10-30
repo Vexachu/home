@@ -1,0 +1,225 @@
+<!-- =============================
+KidCoder · Scratch — Lessons 2–8
+Each lesson is a COMPLETE standalone HTML file.
+Copy each block into its own file/folder.
+Structure matches the user's existing files (theme toggle, slides, nav, etc.).
+All lessons have >= 10 slides. No teacher comments included.
+
+Suggested file paths:
+  lessons/02-movement-basics/index.html
+  lessons/03-costumes-animations/index.html
+  lessons/04-if-collisions/index.html
+  lessons/05-loops/index.html
+  lessons/06-cloning/index.html
+  lessons/07-variables/index.html
+  lessons/08-sounds-talking/index.html
+============================= -->
+
+
+<!-- =============================
+LESSON 2 — Movement Basics
+File: lessons/02-movement-basics/index.html
+============================= -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movement Basics — KidCoder Scratch</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    :root{--bg:#0b0f17;--panel:#0f1624;--text:#e5e7eb;--muted:#9ca3af;--border:rgba(255,255,255,.08);--brand:#22d3ee}
+    html[data-theme="light"]{--bg:#f7f2ef;--panel:#faedcb;--text:#2b2b2b;--muted:#555;--border:rgba(0,0,0,.08);--brand:#c6def1}
+    html[data-theme="light"] .button{background:var(--brand);color:#1f2937;border:1px solid rgba(0,0,0,.1)}
+    html[data-theme="light"] .button.secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+
+    body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    .header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+    .container{max-width:980px;margin:0 auto;padding:0 16px}
+    .button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+    .button.secondary{background:transparent}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0}
+    .h1{font-size:1.8rem;margin:10px 0}
+    .slides{margin:20px 0}
+    .slide{display:none;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+    .slide.active{display:block}
+    .nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+    .badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--muted)}
+    .muted{color:var(--muted)}
+    pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto;color:#111}
+    figure{margin:0} figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div><span>KidCoder · Scratch</span></div>
+      <nav style="display:flex;gap:10px;align-items:center">
+        <button id="themeToggle" class="button secondary">🌙 Dark</button>
+        <a class="button secondary" href="../../index.html">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="slides" id="slides">
+
+      <!-- 1 -->
+      <section class="slide active">
+        <h2 class="h1">Movement Basics</h2>
+        <p>Motion blocks move a sprite on the stage. You’ll use <strong>move</strong>, <strong>turn</strong>, <strong>go to</strong>, <strong>glide</strong>, and <strong>if on edge, bounce</strong>.</p>
+        <ul class="card"><li>Stage center: <code>(0, 0)</code>. Right is +x, up is +y.</li><li>Facing direction affects <em>move</em>.</li><li><em>go to x: y:</em> teleports; <em>glide</em> animates.</li></ul>
+        <div class="nav-btns"><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 2 -->
+      <section class="slide">
+        <h2 class="h1">Arrow Key Movement (X/Y)</h2>
+        <pre class="code-box">
+when <strong>up arrow</strong> key pressed
+  change <strong>y</strong> by <strong>10</strong>
+when <strong>down arrow</strong> key pressed
+  change <strong>y</strong> by <strong>-10</strong>
+when <strong>right arrow</strong> key pressed
+  change <strong>x</strong> by <strong>10</strong>
+when <strong>left arrow</strong> key pressed
+  change <strong>x</strong> by <strong>-10</strong>
+        </pre>
+        <p class="muted">Directly edits coordinates for crisp grid-based movement.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 3 -->
+      <section class="slide">
+        <h2 class="h1">Arrow Key Movement (Facing + Move)</h2>
+        <pre class="code-box">
+when right arrow key pressed
+  point in direction <strong>90</strong>
+  move <strong>10</strong> steps
+when left arrow key pressed
+  point in direction <strong>-90</strong>
+  move <strong>10</strong> steps
+when up arrow key pressed
+  point in direction <strong>0</strong>
+  move <strong>10</strong> steps
+when down arrow key pressed
+  point in direction <strong>180</strong>
+  move <strong>10</strong> steps
+        </pre>
+        <p class="muted">Uses facing to keep animations consistent with motion.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 4 -->
+      <section class="slide">
+        <h2 class="h1">Snap to Start</h2>
+        <pre class="code-box">
+when green flag clicked
+  go to x: <strong>0</strong> y: <strong>-100</strong>
+  point in direction <strong>90</strong>
+        </pre>
+        <p class="muted">Always reset position & direction at the start of the game.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 5 -->
+      <section class="slide">
+        <h2 class="h1">Smooth Movement (Glide)</h2>
+        <pre class="code-box">
+when this sprite clicked
+  glide <strong>0.5</strong> secs to x: <strong>0</strong> y: <strong>0</strong>
+  glide <strong>0.5</strong> secs to x: <strong>100</strong> y: <strong>100</strong>
+        </pre>
+        <p class="muted">Glide animates movement over time.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 6 -->
+      <section class="slide">
+        <h2 class="h1">Bounce at Edges</h2>
+        <pre class="code-box">
+when green flag clicked
+  forever
+    move <strong>7</strong> steps
+    if on edge, bounce
+        </pre>
+        <p class="muted">Great for AI balls or roaming enemies.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 7 -->
+      <section class="slide">
+        <h2 class="h1">Screen Wrap (Optional)</h2>
+        <pre class="code-box">
+forever
+  move 8 steps
+  if &lt; x position &gt; <strong>240</strong> then set x to <strong>-240</strong>
+  if &lt; x position &lt; <strong>-240</strong> then set x to <strong>240</strong>
+  if &lt; y position &gt; <strong>180</strong> then set y to <strong>-180</strong>
+  if &lt; y position &lt; <strong>-180</strong> then set y to <strong>180</strong>
+        </pre>
+        <p class="muted">Wrap-around movement like classic arcade games.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 8 -->
+      <section class="slide">
+        <h2 class="h1">Jump (Simple)</h2>
+        <pre class="code-box">
+when space key pressed
+  repeat <strong>10</strong>
+    change y by <strong>5</strong>
+  repeat <strong>10</strong>
+    change y by <strong>-5</strong>
+        </pre>
+        <p class="muted">Basic hop. (Gravity physics comes later.)</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 9 -->
+      <section class="slide">
+        <h2 class="h1">Follow the Mouse</h2>
+        <pre class="code-box">
+when green flag clicked
+  forever
+    point towards [mouse-pointer v]
+    move <strong>6</strong> steps
+        </pre>
+        <p class="muted">Great for chasing gameplay.</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <!-- 10 -->
+      <section class="slide">
+        <h2 class="h1">Challenge</h2>
+        <ul class="card">
+          <li>Add diagonal movement (pressing two keys).</li>
+          <li>Make a patrol path with <em>glide</em> and <em>wait</em>.</li>
+          <li>Create a start position hotkey: <em>press R to reset</em>.</li>
+        </ul>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><span class="badge">✔ Done!</span></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> KidCoder</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const slides=[...document.querySelectorAll('.slide')];let idx=0;
+    function show(i){slides.forEach((s,n)=>s.classList.toggle('active',n===i));idx=i;}
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+    (function(){const total=slides.length;document.querySelectorAll('.badge[data-step]').forEach((el,i)=>el.textContent=(i+1)+' / '+total)})();
+    const root=document.documentElement, toggle=document.getElementById('themeToggle');
+    const saved=localStorage.getItem('lp_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    function setBtn(){toggle.textContent=root.getAttribute('data-theme')==='light'?'☀️ Light':'🌙 Dark'}
+    setBtn();
+    toggle.addEventListener('click',()=>{const now=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',now);localStorage.setItem('lp_theme',now);setBtn();});
+  </script>
+</body>
+</html>
+

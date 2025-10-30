@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cloning — KidCoder Scratch</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    :root{--bg:#0b0f17;--panel:#0f1624;--text:#e5e7eb;--muted:#9ca3af;--border:rgba(255,255,255,.08);--brand:#22d3ee}
+    html[data-theme="light"]{--bg:#f7f2ef;--panel:#faedcb;--text:#2b2b2b;--muted:#555;--border:rgba(0,0,0,.08);--brand:#c6def1}
+    html[data-theme="light"] .button{background:var(--brand);color:#1f2937;border:1px solid rgba(0,0,0,.1)}
+    html[data-theme="light"] .button.secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+    body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    .header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+    .container{max-width:980px;margin:0 auto;padding:0 16px}
+    .button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+    .button.secondary{background:transparent}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0}
+    .h1{font-size:1.8rem;margin:10px 0}
+    .slides{margin:20px 0}
+    .slide{display:none;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+    .slide.active{display:block}
+    .nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+    .badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--muted)}
+    .muted{color:var(--muted)}
+    pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto;color:#111}
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="nav container">
+    <div class="brand"><div class="logo"></div><span>KidCoder · Scratch</span></div>
+    <nav style="display:flex;gap:10px;align-items:center">
+      <button id="themeToggle" class="button secondary">🌙 Dark</button>
+      <a class="button secondary" href="../../index.html">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="slides" id="slides">
+
+    <!-- 1 -->
+    <section class="slide active">
+      <h2 class="h1">Cloning</h2>
+      <p>Make many copies of a sprite at runtime—bullets, enemies, particles.</p>
+      <ul class="card"><li><em>create clone of (myself)</em></li><li><em>when I start as a clone</em></li><li><em>delete this clone</em></li></ul>
+      <div class="nav-btns"><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide">
+      <h2 class="h1">Basic Spawner</h2>
+      <pre class="code-box">
+when green flag clicked
+  forever
+    create clone of [myself v]
+    wait (1) seconds
+  end
+      </pre>
+      <p class="muted">In the original sprite, make clones every second.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide">
+      <h2 class="h1">Clone Behavior</h2>
+      <pre class="code-box">
+when I start as a clone
+  go to x: (pick random -220 to 220) y: (160)
+  repeat until &lt; touching [edge v] ? &gt;
+    change y by (-6)
+  end
+  delete this clone
+      </pre>
+      <p class="muted">Each clone falls down then deletes itself off-screen.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide">
+      <h2 class="h1">Bullet Clones</h2>
+      <pre class="code-box">
+when [space v] key pressed
+  create clone of [Bullet v]
+
+when I start as a clone // in Bullet
+  go to [Player v]
+  point in direction (direction of [Player v])
+  repeat until &lt; touching [edge v] ? &gt;
+    move (14) steps
+    if &lt; touching [Enemy v] ? &gt; then
+      broadcast [enemy-hit v]
+      delete this clone
+    end
+  end
+  delete this clone
+      </pre>
+      <p class="muted">Player shoots bullet clones that clean themselves up.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide">
+      <h2 class="h1">Enemy Hit</h2>
+      <pre class="code-box">
+when I receive [enemy-hit v]
+  change [Score v] by (1)
+      </pre>
+      <p class="muted">Centralize scoring on a controller or enemy sprite.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide">
+      <h2 class="h1">Limit the Clone Count</h2>
+      <pre class="code-box">
+when green flag clicked
+  set [CloneCount v] to (0)
+
+when I start as a clone
+  change [CloneCount v] by (1)
+  // ... do things ...
+  delete this clone
+
+when I receive [cleanup v]
+  delete this clone
+
+// In a controller:
+forever
+  if &lt; (CloneCount) &gt; (50) &gt; then
+    broadcast [cleanup v]
+  end
+      </pre>
+      <p class="muted">Keep memory safe by limiting clones and cleaning up.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide">
+      <h2 class="h1">Wave Spawner</h2>
+      <pre class="code-box">
+when green flag clicked
+  set [Wave v] to (1)
+  forever
+    repeat (Wave)
+      create clone of [Enemy v]
+      wait (0.2) seconds
+    end
+    change [Wave v] by (1)
+    wait (2) seconds
+  end
+      </pre>
+      <p class="muted">Each wave spawns more enemies than the last.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide">
+      <h2 class="h1">Randomized Enemy Behavior</h2>
+      <pre class="code-box">
+when I start as a clone
+  go to x: (pick random -220 to 220) y: (pick random -150 to 150)
+  point in direction (pick random 0 to 360)
+  repeat (pick random 20 to 40)
+    move (pick random 4 to 8) steps
+    turn (pick random -15 to 15) degrees
+  end
+  delete this clone
+      </pre>
+      <p class="muted">Procedurally varied movement patterns keep games fresh.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide">
+      <h2 class="h1">Particles via Clones</h2>
+      <pre class="code-box">
+when I receive [explode v]
+  repeat (12)
+    create clone of [Particle v]
+  end
+
+// Particle
+when I start as a clone
+  go to [ExplosionCenter v]
+  point in direction (pick random 0 to 360)
+  repeat (10)
+    change x by (pick random 4 to 7)
+    change y by (pick random 4 to 7)
+    set effect [ghost v] to (pick random 20 to 80)
+    wait (0.02) seconds
+  end
+  delete this clone
+      </pre>
+      <p class="muted">Visual juice: clone-based particles on hits/explosions.</p>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide">
+      <h2 class="h1">Challenge</h2>
+      <ul class="card">
+        <li>Build a turret that fires bullet clones toward the mouse.</li>
+        <li>Make enemy clones that home in on the player.</li>
+        <li>Cap bullets on screen to ≤ 8 at once.</li>
+      </ul>
+      <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><span class="badge">✔ Done!</span></div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">© <span id="year"></span> KidCoder</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const slides=[...document.querySelectorAll('.slide')];let idx=0;
+  function show(i){slides.forEach((s,n)=>s.classList.toggle('active',n===i));idx=i;}
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+  document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+  (function(){const total=slides.length;document.querySelectorAll('.badge[data-step]').forEach((el,i)=>el.textContent=(i+1)+' / '+total)})();
+  const root=document.documentElement, toggle=document.getElementById('themeToggle');
+  const saved=localStorage.getItem('lp_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+  function setBtn(){toggle.textContent=root.getAttribute('data-theme')==='light'?'☀️ Light':'🌙 Dark'}
+  setBtn();
+  toggle.addEventListener('click',()=>{const now=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',now);localStorage.setItem('lp_theme',now);setBtn();});
+</script>
+</body>
+</html>

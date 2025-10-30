@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why Code? — KidCoder Scratch</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <style>
+    /* THEME (same as Home) */
+    :root{
+      --bg:#0b0f17;--panel:#0f1624;--text:#e5e7eb;--muted:#9ca3af;--border:rgba(255,255,255,.08);--brand:#22d3ee;
+    }
+    html[data-theme="light"]{
+      --bg:#f7f2ef;--panel:#faedcb;--text:#2b2b2b;--muted:#555;--border:rgba(0,0,0,.08);--brand:#c6def1;
+    }
+    html[data-theme="light"] .button{background:var(--brand);color:#1f2937;border:1px solid rgba(0,0,0,.1)}
+    html[data-theme="light"] .button.secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+    html[data-theme="light"] .lesson-card.lock{opacity:.7}
+    /* Page layout (uses the vars above) */
+    body{background:var(--bg);color:var(--text);margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    .header .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--brand),#84a59d)}
+    .container{max-width:980px;margin:0 auto;padding:0 16px}
+    .button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:var(--text)}
+    .button.secondary{background:transparent}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+    .h1{font-size:1.8rem;margin:10px 0}
+    .slides{margin:20px 0}
+    .slide{display:none;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px}
+    .slide.active{display:block}
+    .nav-btns{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px}
+    .badge{display:inline-block;font-size:.8rem;border:1px solid var(--border);border-radius:999px;padding:4px 10px;color:var(--muted);background:transparent}
+    .muted{color:var(--muted)}
+    pre.code-box{background:#fff7ed;border:1px dashed var(--border);border-radius:12px;padding:12px;overflow:auto;color:#111}
+    .tip{background:#ecfeff;border:1px solid #06b6d4;border-radius:12px;padding:10px}
+    figure{margin:0} figure img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+    footer.footer{text-align:center;color:var(--muted);padding:24px 0;border-top:1px solid var(--border);margin-top:24px}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav container">
+      <div class="brand"><div class="logo"></div><span>KidCoder · Scratch</span></div>
+      <nav style="display:flex;gap:10px;align-items:center">
+        <button id="themeToggle" class="button secondary">🌙 Dark</button>
+        <a class="button secondary" href="../../index.html">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="slides" id="slides">
+      <section class="slide active">
+        <h2 class="h1">Why Code?</h2>
+        <p>Coding is how we talk to computers to make things: games, stories, apps, robots, even music and art.</p>
+        <ul class="card">
+          <li><strong>Create:</strong> build your own ideas, not just play them.</li>
+          <li><strong>Think:</strong> break big problems into tiny steps (<em>computational thinking</em>).</li>
+          <li><strong>Share:</strong> show family & friends what you made on the web.</li>
+        </ul>
+        <div class="nav-btns"><span class="badge" data-step></span><button class="button secondary" data-next>Next ➡</button></div>
+      </section>
+
+      <section class="slide">
+        <h2 class="h1">Mini-Assignment</h2>
+        <p>Open a new doc and write 3–5 sentences answering:</p>
+        <ol class="card">
+          <li>What would you like to make with code?</li>
+          <li>Who would enjoy your project?</li>
+          <li>What skills do you hope to learn this year?</li>
+        </ol>
+        <p class="tip">Teacher tip: Let students share 1 idea out loud. Celebrate any idea!</p>
+        <div class="nav-btns">
+          <button class="button secondary" data-prev>⬅ Back</button>
+          <span class="badge" data-step></span>
+          <button class="button secondary" data-next>Next ➡</button>
+        </div>
+      </section>
+
+      <section class="slide">
+        <h2 class="h1">Why Scratch?</h2>
+        <p>We’ll start with <strong>Scratch</strong> because it’s perfect for beginners:</p>
+        <ul class="card">
+          <li><strong>Block coding:</strong> snap pieces together—no semicolons!</li>
+          <li><strong>Visual:</strong> see characters move, draw, and talk right away.</li>
+          <li><strong>Safe sharing:</strong> show projects to others and remix.</li>
+        </ul>
+        <p class="muted">“Scratch is a project of the Scratch Foundation. It is available for free at scratch.mit.edu.”</p>
+        <div class="nav-btns"><button class="button secondary" data-prev>⬅ Back</button><span class="badge" data-step></span><span class="badge">✔ Done!</span></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="year"></span> KidCoder</footer>
+
+  <script>
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // slides
+    const slides=[...document.querySelectorAll('.slide')];let idx=0;
+    function show(i){slides.forEach((s,n)=>s.classList.toggle('active',n===i));idx=i;}
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{if(idx<slides.length-1)show(idx+1)}));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',()=>{if(idx>0)show(idx-1)}));
+    (function(){const total=slides.length;document.querySelectorAll('.badge[data-step]').forEach((el,i)=>el.textContent=(i+1)+' / '+total)})();
+
+    // theme (sync with Home)
+    const root=document.documentElement, toggle=document.getElementById('themeToggle');
+    const saved=localStorage.getItem('lp_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    function setBtn(){toggle.textContent=root.getAttribute('data-theme')==='light'?'☀️ Light':'🌙 Dark'}
+    setBtn();
+    toggle.addEventListener('click',()=>{const now=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',now);localStorage.setItem('lp_theme',now);setBtn();});
+  </script>
+</body>
+</html>
